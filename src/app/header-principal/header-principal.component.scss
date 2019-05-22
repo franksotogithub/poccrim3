@@ -1,0 +1,25 @@
+.ce-headerprincipal{
+  background-color: #1B3C71;
+  color: white;
+  > nav{
+    display: flex;
+  }
+  .boton-share{
+    color:white;
+    background-color: #1B3C71;
+  }
+  .boton-menu{
+    height: 100%;
+    margin: auto;
+    background-color: #1B3C71;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding-left:10px;
+    margin-right: 10px;
+    margin-left:0;
+  }
+  .nameSys{
+    width: 270px;
+  }
+}
