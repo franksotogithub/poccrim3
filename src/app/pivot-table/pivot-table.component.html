@@ -1,0 +1,12 @@
+<div class="table-container">		
+	<div id="pivot_controls">
+		<div *ngFor="let parameter of this.parameters">
+			<label><input type="checkbox" name=parameter.field value=parameter.value [(ngModel)]=parameter.status> {{ parameter.label }}</label>&nbsp;
+			<input type="text" name="{{ parameter.field }}_filter" placeholder="{{ parameter.label }}" [(ngModel)]=parameter.filter>
+		</div>		
+		<button (click)="run()">RUN</button>
+	</div>
+
+	<div id="pivot"></div>
+	<div *ngIf="!data"><p>Cargando...</p></div>	
+</div>
