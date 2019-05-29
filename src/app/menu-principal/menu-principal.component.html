@@ -17,7 +17,7 @@
           <input type="search" >
           <ul >
             <li *ngFor="let itemBread of grupoArray[indice] ; let indiceItem = index"
-                (click) = "enviarID(ref.id,ref.getAttribute('data-posicion'),ref.getAttribute('data-posicionItem'))"
+                (click) = "enviarID(ref.id,ref.getAttribute('data-posicion'),ref.getAttribute('data-posicionItem'),ref.getAttribute('itemBread.padre_id'))"
                 data-id={{itemBread.item_id}}
                 [attr.data-padre]="itemBread.padre_id"
                 [attr.data-posicion]="indice"
