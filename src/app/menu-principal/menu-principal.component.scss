@@ -75,7 +75,7 @@
   }
 
 
-  > div.dmk-breadcrumbv1:nth-last-child(2){
+  > div.dmk-breadcrumbv1.activo{
     background-color: #29abe2;
     &:after {
       border-color: transparent
@@ -201,7 +201,10 @@
             outline-offset: 0px;
           }
         }
-
+        ul{
+          list-style: none;
+          padding:0;
+        }
         li {
           font-size: 12px;
           padding:5px;

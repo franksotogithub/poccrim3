@@ -1,23 +1,25 @@
 <div class="col contenedor-menuPrincipal">
-  <div class="dmk-breadcrumbv1">DELITOS</div>
-  <div class="dmk-breadcrumbv1">POLICIA NACIONAL DEL PERú</div>
-  <div class="dmk-breadcrumbv1">DENUNCIA DE DELITOS</div>
+  <div (click)="onClickMe()" class="dmk-breadcrumbv1">{{dataArbol[0].name}} </div>
+  <div (click)="onClickMe()" class="dmk-breadcrumbv1">{{dataArbol[0].children[0].name}}</div>
+  <div (click)="onClickMe()" class="dmk-breadcrumbv1 activo">{{dataArbol[0].children[0].children[0].name}}</div>
 
-  <div class="group-select-menu">
+  <div *ngIf="prueba" class="group-select-menu">
     <div class="dmk-select-cont">
       <div class="dmk-input-select">
         <div class="circulo-m">1.</div>
-        <div class="texto-itemSele">DELITOS</div>
+        <div class="texto-itemSele" attr.name="{{dataArbol[0].item_id}}" >{{dataArbol[0].name}}</div>
       </div>
 
       <ul class="dmk-select-lista">
         <input type="search">
-        <li>DELITOS</li>
-        <li>FALTAS</li>
-        <li>VICTIMAS</li>
+        <ul >
+          <li *ngFor="let itemMenu of dataArbol"
+              (click) = "enviarID(ref.id)"
+              data-id={{itemMenu.item_id}}
+              #ref>{{itemMenu.name}}</li>
+        </ul>
+
       </ul>
     </div>
   </div>
 </div>
-
-
