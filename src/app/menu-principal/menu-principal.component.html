@@ -1,23 +1,36 @@
 <div class="col contenedor-menuPrincipal">
-  <div class="dmk-breadcrumbv1">DELITOS</div>
-  <div class="dmk-breadcrumbv1">POLICIA NACIONAL DEL PERÚ</div>
-  <div class="dmk-breadcrumbv1">DENUNCIA DE DELITOS</div>
+  <div *ngFor="let itemMenu of breadCrumb; let ultimo = last; let indice = index"
+       [ngClass]="{activo:ultimo}"
+       (click)="onClickMe(indice)"
+       [attr.data-caida]="indice"
+       class="dmk-breadcrumbv1">
+        {{itemMenu.name}}
 
-  <div class="group-select-menu">
-    <div class="dmk-select-cont">
-      <div class="dmk-input-select">
-        <div class="circulo-m">1.</div>
-        <div class="texto-itemSele">DELITOS</div>
+    <div *ngIf="arrayBooleanMenu[indice]" class="group-select-menu">
+      <div class="dmk-select-cont">
+        <!--<div class="dmk-input-select">
+          <div class="circulo-m">1.</div>
+          <div class="texto-itemSele" attr.name="{{dataArbol[0].item_id}}" >{{dataArbol[0].name}}</div>
+        </div>-->
+
+        <ul class="dmk-select-lista" (click) ="$event.stopPropagation();">
+          <input type="search" >
+          <ul >
+            <li *ngFor="let itemBread of grupoArray[indice] ; let indiceItem = index"
+                (click) = "enviarID(ref.id,ref.getAttribute('data-posicion'),ref.getAttribute('data-posicionItem'),ref.getAttribute('itemBread.padre_id'))"
+                data-id={{itemBread.item_id}}
+                [attr.data-padre]="itemBread.padre_id"
+                [attr.data-posicion]="indice"
+                [attr.data-posicionItem]="indiceItem"
+                #ref>{{itemBread.name}}</li>
+          </ul>
+
+        </ul>
       </div>
-
-      <ul class="dmk-select-lista">
-        <input type="search">
-        <li>DELITOS</li>
-        <li>FALTAS</li>
-        <li>VICTIMAS</li>
-      </ul>
     </div>
   </div>
+
+
 </div>
 
 
