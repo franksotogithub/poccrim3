@@ -10,45 +10,61 @@ import { MenuArbolService } from '../menu-arbol.service';
 })
 export class MenuPrincipalComponent implements OnInit {
   public dataArbol: any = null;
-  prueba: any = false;
-  configInit: any[] =[1,2,3];
-  breadCrumb: any[];
+  arrayBooleanMenu: any[] = [];
+  configInit: any[] =[1,48,10071];
+  breadCrumb: any[] = [];
+  elementoArray: any;
+  grupoArray: any[] = [];
 
 
-  onClickMe() {
-    this.prueba = !this.prueba;
+  onClickMe(indice) {
+    this.arrayBooleanMenu[indice] = !this.arrayBooleanMenu[indice];
   }
   constructor(private service: MenuArbolService) { }
 
   ngOnInit() {
     this.recibirData();
-    this.iniciarMenu(this.configInit);
-
   }
 
   recibirData(){
     this.service.getmenuArbol().subscribe(
       dataArbol => {
         this.dataArbol = dataArbol;
-        console.log(dataArbol);
+        //console.log(dataArbol);
+        this.iniciarMenu(this.configInit);
       }
     );
+
+
   }
+
+  buscarItem(variable){
+    /* Busca un array dentro del objeto y lo guarda para utilizar el nuevo array*/
+    this.grupoArray.push(this.elementoArray);
+    let iitem = this.elementoArray.filter(x => x.item_id == variable);
+    this.elementoArray = iitem[0].children;
+    this.breadCrumb.push(iitem[0]);
+
+    this.arrayBooleanMenu.push(false);
+
+  }
+
 
   iniciarMenu(configInit){
-    let tamanioArray = configInit.length;
-
+    this.elementoArray = this.dataArbol;
     configInit.forEach((valor, index) => {
-      let iitem = this.dataArbol.filter(x => x.item.id == valor );
-      this.breadCrumb.push(iitem);
+      this.buscarItem(valor);
     });
-
-    console.log(this.breadCrumb);
-
+    console.log(this.grupoArray);
   }
 
-  enviarID(id){
-    //ref.value;
-    alert(id);
+  enviarID(id,posicion, posicionItem){
+    let posicion = parseInt(posicion);
+    let posicionItem = parseInt(posicionItem);
+    //this.breadCrumb=[];
+    //this.breadCrumb[2].push("Holi");
+    this.breadCrumb[posicion]=this.grupoArray[posicion][posicionItem];
+    console.log(this.grupoArray[posicion][posicionItem]);
+
   }
 }

@@ -1,25 +1,34 @@
 <div class="col contenedor-menuPrincipal">
-  <div (click)="onClickMe()" class="dmk-breadcrumbv1">{{dataArbol[0].name}} </div>
-  <div (click)="onClickMe()" class="dmk-breadcrumbv1">{{dataArbol[0].children[0].name}}</div>
-  <div (click)="onClickMe()" class="dmk-breadcrumbv1 activo">{{dataArbol[0].children[0].children[0].name}}</div>
+  <div *ngFor="let itemMenu of breadCrumb; let ultimo = last; let indice = index"
+       [ngClass]="{activo:ultimo}"
+       (click)="onClickMe(indice)"
+       [attr.data-caida]="indice"
+       class="dmk-breadcrumbv1">
+        {{itemMenu.name}}
 
-  <div *ngIf="prueba" class="group-select-menu">
-    <div class="dmk-select-cont">
-      <div class="dmk-input-select">
-        <div class="circulo-m">1.</div>
-        <div class="texto-itemSele" attr.name="{{dataArbol[0].item_id}}" >{{dataArbol[0].name}}</div>
-      </div>
+    <div *ngIf="arrayBooleanMenu[indice]" class="group-select-menu">
+      <div class="dmk-select-cont">
+        <!--<div class="dmk-input-select">
+          <div class="circulo-m">1.</div>
+          <div class="texto-itemSele" attr.name="{{dataArbol[0].item_id}}" >{{dataArbol[0].name}}</div>
+        </div>-->
 
-      <ul class="dmk-select-lista">
-        <input type="search">
-        <ul >
-          <li *ngFor="let itemMenu of dataArbol"
-              (click) = "enviarID(ref.id)"
-              data-id={{itemMenu.item_id}}
-              #ref>{{itemMenu.name}}</li>
+        <ul class="dmk-select-lista" (click) ="$event.stopPropagation();">
+          <input type="search" >
+          <ul >
+            <li *ngFor="let itemBread of grupoArray[indice] ; let indiceItem = index"
+                (click) = "enviarID(ref.id,ref.getAttribute('data-posicion'),ref.getAttribute('data-posicionItem'))"
+                data-id={{itemBread.item_id}}
+                [attr.data-padre]="itemBread.padre_id"
+                [attr.data-posicion]="indice"
+                [attr.data-posicionItem]="indiceItem"
+                #ref>{{itemBread.name}}</li>
+          </ul>
+
         </ul>
-
-      </ul>
+      </div>
     </div>
   </div>
+
+
 </div>

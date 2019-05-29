@@ -93,7 +93,7 @@
   }
 
   /* desplegable del Menu */
-  > div.group-select-menu{
+   div.group-select-menu{
     position: absolute;
     z-index: 2;
     background-color: white;
@@ -102,118 +102,117 @@
     box-shadow: rgba(0,0,0,0.2) 0 0 6px ;
     border-radius:3px;
     padding:10px;
+  }
 
-    .dmk-select-cont{
-      vertical-align: middle;
-      .dmk-input-select{
-        cursor:pointer;
-      }
-      .circulo-m {
-        border-radius:50%;
-        background-color: #ed7203;
+  .dmk-select-cont{
+    vertical-align: middle;
+    .dmk-input-select{
+      cursor:pointer;
+    }
+    .circulo-m {
+      border-radius:50%;
+      background-color: #ed7203;
+      display: inline-block;
+      padding:5px;
+      color:white;
+      width: 36px;
+      text-align: center;
+    }
+
+    .texto-itemSele{
+      background-color: #ed7203;
+      color:white;
+      padding:5px 15px;
+      padding-left:15px;
+      display: inline-block;
+      margin-left:-10px;
+      font-size: 12px;
+      border-radius: 2px;
+      min-width:160px;
+      position: relative;
+
+      &:after{
+        content: "keyboard_arrow_down";
+        position: absolute;
+        right: 4px;
+        top:50%;
+        transform: translate(0, -50%);
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 20px;
         display: inline-block;
-        padding:5px;
-        color:white;
-        width: 36px;
-        text-align: center;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-feature-settings: 'liga';
+        font-feature-settings: 'liga';
+      }
+    }
+
+    .dmk-select-lista{
+      list-style: none;
+      margin:0;
+      margin-top:5px;
+      padding:5px;
+      background: #f5f5f5;
+      position: relative;
+
+      &:after{
+        content: "search";
+        color:#1B3C71;
+        position: absolute;
+        right: 8px;
+        top:8px;
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 20px;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-feature-settings: 'liga';
+        font-feature-settings: 'liga';
       }
 
-      .texto-itemSele{
-        background-color: #ed7203;
-        color:white;
-        padding:5px 15px;
-        padding-left:15px;
-        display: inline-block;
-        margin-left:-10px;
+      input {
+        border:none;
         font-size: 12px;
-        border-radius: 2px;
-        min-width:160px;
+        width: 100%;
+        padding: 3px 5px;
+        padding-right: 25px;
         position: relative;
 
-        &:after{
-          content: "keyboard_arrow_down";
-          position: absolute;
-          right: 4px;
-          top:50%;
-          transform: translate(0, -50%);
-          font-family: 'Material Icons';
-          font-weight: normal;
-          font-style: normal;
-          font-size: 20px;
-          display: inline-block;
-          line-height: 1;
-          text-transform: none;
-          letter-spacing: normal;
-          word-wrap: normal;
-          white-space: nowrap;
-          direction: ltr;
-          -webkit-font-smoothing: antialiased;
-          text-rendering: optimizeLegibility;
-          -moz-osx-font-smoothing: grayscale;
-          -webkit-font-feature-settings: 'liga';
-          font-feature-settings: 'liga';
+
+        &:focus{
+          outline:solid 1px #ed7203;
+          outline-offset: 0px;
         }
       }
-
-      .dmk-select-lista{
+      ul{
         list-style: none;
-        margin:0;
-        margin-top:5px;
+        padding:0;
+      }
+      li {
+        font-size: 12px;
         padding:5px;
-        background: #f5f5f5;
-        position: relative;
-
-        &:after{
-          content: "search";
-          color:#1B3C71;
-          position: absolute;
-          right: 8px;
-          top:8px;
-          font-family: 'Material Icons';
-          font-weight: normal;
-          font-style: normal;
-          font-size: 20px;
-          display: inline-block;
-          line-height: 1;
-          text-transform: none;
-          letter-spacing: normal;
-          word-wrap: normal;
-          white-space: nowrap;
-          direction: ltr;
-          -webkit-font-smoothing: antialiased;
-          text-rendering: optimizeLegibility;
-          -moz-osx-font-smoothing: grayscale;
-          -webkit-font-feature-settings: 'liga';
-          font-feature-settings: 'liga';
-        }
-
-        input {
-          border:none;
-          font-size: 12px;
-          width: 100%;
-          padding: 3px 5px;
-          padding-right: 25px;
-          position: relative;
-
-
-          &:focus{
-            outline:solid 1px #ed7203;
-            outline-offset: 0px;
-          }
-        }
-        ul{
-          list-style: none;
-          padding:0;
-        }
-        li {
-          font-size: 12px;
-          padding:5px;
-          cursor: pointer;
-          &:hover{
-            background-color: #1B3C71;
-            color: white;
-          }
-
+        cursor: pointer;
+        &:hover{
+          background-color: #1B3C71;
+          color: white;
         }
 
       }
