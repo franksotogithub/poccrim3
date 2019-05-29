@@ -1,0 +1,33 @@
+
+<div *ngIf="datos!==undefined  ; then thenBlock else elseBlock"></div>
+
+<ng-template #thenBlock>
+    
+    <div class="legenda">
+        <div>LEYENDA</div>
+
+        <div>
+        <select [ngModel]="selectedItem" (ngModelChange)="selected($event)"  >
+    
+            <option *ngFor="let item of items" [ngValue]="item" >{{item.text}} </option>
+              
+        </select>
+        </div>
+        <div>
+        <select [ngModel]="selectedItemVariable" (ngModelChange)="selectedVariables($event)"  >
+              
+            <option *ngFor="let item of itemsVariables" [ngValue]="item" >{{item.text}} </option>
+              
+        </select>  
+        </div>
+        <div *ngFor="let rango of datos.rangos ; let i=index ">  
+           <div [ngStyle]="{'height':'20px','width':'20px','background-color':datos.colores[i].color  }">
+          </div>  De {{rango.min_valor}} hasta {{rango.max_valor}} 
+        </div>
+     </div>
+</ng-template>
+
+<ng-template>
+    <div>Loading...</div>
+</ng-template>
+

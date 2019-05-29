@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { DragulaModule } from 'ng2-dragula';
 import { FilterInputComponent } from './filter-input/filter-input.component';
+import { EsriMapComponent } from './esri-map/esri-map.component';
+import { HerramientasMapComponent } from './herramientas-map/herramientas-map.component';
+import { LegendaMapComponent } from './legenda-map/legenda-map.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
     HeaderPrincipalComponent,
     MenuPrincipalComponent,
     PivotTableComponent,
-    FilterInputComponent
+    FilterInputComponent,
+    EsriMapComponent,
+    HerramientasMapComponent,
+    LegendaMapComponent
   ],
   imports: [
     BrowserModule,
