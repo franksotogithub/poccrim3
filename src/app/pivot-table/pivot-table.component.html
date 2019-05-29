@@ -1,12 +1,40 @@
-<div class="table-container">		
-	<div id="pivot_controls">
-		<div *ngFor="let parameter of this.parameters">
-			<label><input type="checkbox" name=parameter.field value=parameter.value [(ngModel)]=parameter.status> {{ parameter.label }}</label>&nbsp;
-			<input type="text" name="{{ parameter.field }}_filter" placeholder="{{ parameter.label }}" [(ngModel)]=parameter.filter>
-		</div>		
-		<button (click)="run()">RUN</button>
-	</div>
+<div class="table-container">	
+	
+	<app-filter-input></app-filter-input>
 
-	<div id="pivot"></div>
-	<div *ngIf="!data"><p>Cargando...</p></div>	
+	<button (click)="run()">RUN</button>
+
+	<div class="drag_container">
+		<div class="wrapper row pool">
+			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.pool'>
+				<div class="dimension_box" *ngFor='let parameter of this.pool' >
+					{{ parameter.label }}<br>
+					<input type="text" name="{{ parameter.field }}_filter" [(ngModel)]=parameter.filter>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper row columns">
+			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.colsArray'>
+				<div class="dimension_box" *ngFor='let col of this.colsArray'>
+					{{ col.label }}<br>
+					<input type="text" name="{{ col.field }}_filter" [(ngModel)]=col.filter>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="wrapper col rows">
+				<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.rowsArray'>
+					<div class="dimension_box" *ngFor='let row of this.rowsArray'>
+						{{ row.label }}<br>
+						<input type="text" name="{{ row.field }}_filter" [(ngModel)]=row.filter>
+					</div>
+				</div>
+			</div>
+			<div class="col table">
+				<div id="pivot"></div>	
+				<div *ngIf="!data"><p>Cargando...</p></div>			
+			</div>
+		</div>
+	</div>	
+	
 </div>

@@ -10,18 +10,23 @@ import { PivotTableComponent } from './pivot-table/pivot-table.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { DragulaModule } from 'ng2-dragula';
+import { FilterInputComponent } from './filter-input/filter-input.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HeaderPrincipalComponent,
     MenuPrincipalComponent,
-    PivotTableComponent
+    PivotTableComponent,
+    FilterInputComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DragulaModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

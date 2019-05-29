@@ -68,7 +68,7 @@ export class MenuPrincipalComponent implements OnInit {
     //console.log(this.grupoArray[position][posicionItem]);
 
 
-
+      /* Si el combo clikeado es el primero */
       if(position + 1 == 1){
         console.log(this.breadCrumb.length + " , " + (position + 1));
         this.breadCrumb=[];
