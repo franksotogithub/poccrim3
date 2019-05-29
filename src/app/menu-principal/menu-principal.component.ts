@@ -60,8 +60,8 @@ export class MenuPrincipalComponent implements OnInit {
 
   enviarID(id,posicion, posicionItem,idpadre){
     let position = parseInt(posicion);
-    let posicionItem = parseInt(posicionItem);
-    let idpadre = parseInt(idpadre);
+    let positionItem = parseInt(posicionItem);
+    //let idpadre = parseInt(idpadre);
     //this.breadCrumb=[];
     //this.breadCrumb[2].push("Holi");
     //this.breadCrumb[position]=this.grupoArray[position][posicionItem];
@@ -72,17 +72,17 @@ export class MenuPrincipalComponent implements OnInit {
       if(position + 1 == 1){
         console.log(this.breadCrumb.length + " , " + (position + 1));
         this.breadCrumb=[];
-        this.breadCrumb[position]=this.grupoArray[position][posicionItem];
+        this.breadCrumb[position]=this.grupoArray[position][positionItem];
         console.log(this.breadCrumb);
         this.breadCrumb[position + 1] = {name:"Seleccione por favor"};
-        this.grupoArray[position + 1] = this.grupoArray[position][posicionItem].children;
+        this.grupoArray[position + 1] = this.grupoArray[position][positionItem].children;
 
       }else if(position + 1 > 1 ){
         console.log(this.breadCrumb.length + " , " + (position + 1));
-        this.breadCrumb[position]=this.grupoArray[position][posicionItem];
+        this.breadCrumb[position]=this.grupoArray[position][positionItem];
         console.log(this.breadCrumb);
         this.breadCrumb[position + 1] = {name:"Seleccione por favor"};
-        this.grupoArray[position + 1] = this.grupoArray[position][posicionItem].children;
+        this.grupoArray[position + 1] = this.grupoArray[position][positionItem].children;
       }
 
 
