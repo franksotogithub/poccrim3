@@ -35,6 +35,7 @@ export class EsriMapService {
   private colorGris = '#9c9c9c';
   private colores = [];
   private group = 'ccdd';
+  private datoTabla;
 
 
   constructor(private http: HttpClient , private dataMapService: ApiService) {
@@ -42,25 +43,16 @@ export class EsriMapService {
     this.obtenerDatosMapaTematico().subscribe(res => {
       //this.setEsriMapDataSource(res);
     });
-    /*
+
     this.dataMapService.loadedData$.subscribe(
       response => {
-        var res={};
-        var datos,rangos,arrayData=[];
-        this.colores=this.getColores(0,5);
-        datos=this.formatearDato(response);
-        datos.forEach(e => {
-          arrayData.push(e.valor);
-        });
-        rangos=this.crearRangos(arrayData,5);
-        var datosx=this.getColorPorDato(datos,rangos,this.colores);
-        res['id']=this.ambito;
-        res['rangos']=rangos;
-        res['colores']=this.colores;
-        res['data']=datosx;
-        this.setEsriMapDataSource(res);
+        this.datoTabla = response;
+
+        console.log('this.datoTabla>>>' , this.datoTabla);
+        var res = response.filter(x => x._id['Año'] == this.anio);
+        this.esriMapDataSource.next( this.formatearDato(res));
       }
-    );*/
+    );
 
 
   }
@@ -207,23 +199,11 @@ export class EsriMapService {
   */
 
     obtenerDatosMapaTematico(){
-      //const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=ccdd,ccpp&anio=2017`;
       const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=ccdd&anio=${this.anio}`;
       return this.http.get<esriMapData>(url).pipe(
         tap(response => {
-          var res={};
-          var datos,rangos,arrayData=[];
-          this.colores=this.getColores(0,5);
-          datos=this.formatearDato(response);
-          datos.forEach(e => {
-            arrayData.push(e.valor);
-          });
-          rangos=this.crearRangos(arrayData,5);
-          var datosx=this.getColorPorDato(datos,rangos,this.colores);
-          res['id']=this.ambito;
-          res['rangos']=rangos;
-          res['colores']=this.colores;
-          res['data']=datosx;
+
+          var res = this.formatearDato(response);
 
           this.esriMapDataSource.next(res);
         }),
@@ -235,11 +215,37 @@ export class EsriMapService {
 
     }
 
-  formatearDato(datos) {
-    var data = datos.map(x => {
+  formatearDato(response) {
+
+    var res={};
+    var datos,rangos,arrayData=[];
+    this.colores=this.getColores(0,5);
+
+    datos=response.map(x => {
       return {'codigo': x._id.codigo_mapa, 'valor': x.delitos};
     });
-    return data;
+
+    datos.forEach(e => {
+      arrayData.push(e.valor);
+    });
+    rangos=this.crearRangos(arrayData,5);
+    var datosx=this.getColorPorDato(datos,rangos,this.colores);
+    var r=response[0]._id;
+    (r.hasOwnProperty('Distrito'))?this.ambito=2:(r.hasOwnProperty('Provincia'))?this.ambito=1:(r.hasOwnProperty('Departamento'))?this.ambito=0:this.ambito=-1;
+
+
+    res['id']=this.ambito;
+    res['rangos']=rangos;
+    res['colores']=this.colores;
+    res['data']=datosx;
+    res['ambito']=this.ambito;
+
+    /*"Departamento": "AREQUIPA",
+      "codigo_mapa": "040207",
+      "Provincia": "CAMANA",
+      "Distrito": "040207 QUILCA"*/
+
+    return res;
   }
 
 
@@ -280,8 +286,10 @@ export class EsriMapService {
   }
 
   cambiarAnio(anio) {
+    const res = this.datoTabla.filter(x => x._id['Año'] == anio);
     this.anio = anio;
     this.anioSource.next(anio);
+    this.esriMapDataSource.next( this.formatearDato(res));
     return anio;
   }
 

@@ -128,28 +128,6 @@ export class EsriMapComponent implements OnInit {
 
   }
 
-  /*async crearSimboloTematico(color, borderLine): Promise<any> {
-    try{
-      const[Color,SimpleFillSymbol, SimpleLineSymbol] = await loadModules(["esri/Color",
-      "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol"],this.optionsApi);
-      var c=new SimpleFillSymbol(
-        "solid"
-        , new SimpleLineSymbol().setWidth(borderLine)
-        , new Color(color));
-
-
-
-      return c;
-
-    }
-
-    catch(error)  {
-      console.log('EsriLoader: ', error);
-      return "";
-    }
-
-  }*/
-
 
   async actualizarCapaTematico(res, index) {
     try {
@@ -168,10 +146,17 @@ export class EsriMapComponent implements OnInit {
         };
       });
 
+      var defaultSymbol = new SimpleFillSymbol(
+        "solid"
+        , new SimpleLineSymbol("solid", new Color([0,0,0,1]), 1)
+        , new Color(this.colorGris));
+
       var layerRenderer = new UniqueValueRenderer({
         'type': 'uniqueValue',
         'field1': 'CODIGO',
         'uniqueValueInfos': uniqueValueInfos,
+
+        "defaultSymbol":defaultSymbol,
       });
 
       var capa = this.capasTematicos.find(x => x.id == index);
@@ -220,48 +205,20 @@ export class EsriMapComponent implements OnInit {
         }
       );
 
-
-      /*this.esriMapService.getVariable().subscribe(variable => {
-        this.variable = variable;
-        this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
-        });
-      });*/
-
       this.esriMapService.getAnio().subscribe(anio => {
         this.anio = anio;
-        this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
-        });
       });
-
 
       this.esriMapService.getBtnResetPeruSource().subscribe(res => {
         this.map.centerAndZoom(this.center, this.zoom);
       });
 
-
       this.esriMapService.getEsriMapDataSource().subscribe(res => {
+        this.ambito=res['ambito'];
         this.actualizarCapaTematico(res, this.ambito).then(_ => {
           this.cambiarAmbito(this.ambito);
         });
       });
-
-
-      /*this.esriMapService.getAmbito().subscribe(res=>{
-        var ambito = res;
-
-        this.esriMapService.getEsriMapData(this.proyecto,this.version,this.variable,ambito,this.tipoValor).subscribe(res=>{
-              res.id=ambito;
-              var arrayData=res.data.map(x=>x.valor);
-              var rangos=this.crearRangos(arrayData,5);
-              res.rangos=rangos;
-              res.colores=this.colores;
-              res.data=this.getColorPorDato(res.data,res.rangos,res.colores);
-              this.esriMapService.setEsriMapDataSource(res);
-              this.actualizarCapaTematico(res,ambito);
-              this.cambiarAmbito(ambito);
-        });
-      });
-      */
 
 
 
