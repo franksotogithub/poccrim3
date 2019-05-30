@@ -13,9 +13,9 @@ export class LegendaMapComponent implements OnInit {
   private ambito = 0;
 
   private items = [
-    {id: 0, text: 'DEPARTAMENTO', group:'ccdd'},
-    {id: 1, text: 'PROVINCIA', group:'ccdd,ccpp'},
-    {id: 2, text: 'DISTRITO', group:'ccdd,ccpp,ccdi'},
+    {id: 0, text: 'DEPARTAMENTO', group: 'ccdd'},
+    {id: 1, text: 'PROVINCIA', group: 'ccdd,ccpp'},
+    {id: 2, text: 'DISTRITO', group: 'ccdd,ccpp,ccdi'},
   ];
   private selectedItem = this.items[0];
 
@@ -58,6 +58,10 @@ export class LegendaMapComponent implements OnInit {
     this.esriMapService.cambiarAnio(value.id);
   }
 
+  setSelectedAmbito(ambito: any) {
+    this.selectedItem = this.items.find(x => x.id === ambito);
+  }
+
   ngOnInit() {
 
     this.esriMapService.getEsriMapDataSource().subscribe(res => {
@@ -65,6 +69,11 @@ export class LegendaMapComponent implements OnInit {
     });
 
 
+    this.esriMapService.getAmbito().subscribe(ambito => {
+        this.ambito = ambito;
+        this.setSelectedAmbito(ambito);
+      }
+    );
 
   }
 

@@ -200,6 +200,7 @@ export class EsriMapComponent implements OnInit {
       this.esriMapService.getAmbito().subscribe(ambito => {
           this.ambito = ambito;
           this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
+            console.log('getAmbito res>>',res);
           });
 
         }

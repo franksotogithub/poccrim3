@@ -199,12 +199,10 @@ export class EsriMapService {
   */
 
     obtenerDatosMapaTematico(){
-      const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=ccdd&anio=${this.anio}`;
+      const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
       return this.http.get<esriMapData>(url).pipe(
         tap(response => {
-
           var res = this.formatearDato(response);
-
           this.esriMapDataSource.next(res);
         }),
         catchError(this.handleError)
@@ -239,7 +237,7 @@ export class EsriMapService {
     res['colores']=this.colores;
     res['data']=datosx;
     res['ambito']=this.ambito;
-
+    //setSelectedAmbito(this.ambito);
     /*"Departamento": "AREQUIPA",
       "codigo_mapa": "040207",
       "Provincia": "CAMANA",
