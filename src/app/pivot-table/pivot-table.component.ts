@@ -32,6 +32,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
   data: Object[];
   parameters: any[];
+  filters: object;
 
   config: any;
 
@@ -81,12 +82,14 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     this.cols = 'Año';
   	this.rows = 'Departamento';
 
+    this.filters = {};
+
     /*
     this.dimensiones = [
       {
         label: "Departamento",
-        cod: "ccdd",
-        show_options: false,
+        name: "ccdd",
+        parent: null,
         options: [
           { id: '01', label: 'AMAZONAS', selected: true },
           { id: '02', label: 'APURIMAC', selected: true },
@@ -99,11 +102,11 @@ export class PivotTableComponent implements OnInit, OnDestroy {
       },
       {
         label: "Provincia",
-        cod: "ccpp",
-        show_options: false,
+        name: "ccpp",
+        parent: "ccdd",
         options: [
-          { id: '0101', label: 'AMAZONAS', selected: true },
-          { id: '0101', label: 'AMAZONAS', selected: true },
+          { id: '0101', parent: '01', label: 'AMAZONAS', selected: true },
+          { id: '0101', parent: '02', label: 'AMAZONAS2', selected: true },
         ]
       }
     ];
@@ -165,6 +168,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   }
 
   run(): void {
+    console.log('filters: ', this.filters);
     console.log(this.dimensiones);
     let r = {};
     this.dimensiones.forEach(x=>{

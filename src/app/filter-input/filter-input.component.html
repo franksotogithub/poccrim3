@@ -5,7 +5,7 @@
 	</div>
 	<div class="options" *ngIf="show_options">
 		<div *ngFor='let opt of getOptions()'>
-			<input type="checkbox" [(ngModel)]=opt.selected> {{ opt.label }}
+			<input type="checkbox" [(ngModel)]=opt.selected (change)=update_filters()> {{ opt.label }}
 		</div>
 	</div>
 	<div *ngIf="show_options">
