@@ -42,25 +42,13 @@ export class EsriMapService {
     this.obtenerDatosMapaTematico().subscribe(res => {
       //this.setEsriMapDataSource(res);
     });
-    /*
+
     this.dataMapService.loadedData$.subscribe(
       response => {
-        var res={};
-        var datos,rangos,arrayData=[];
-        this.colores=this.getColores(0,5);
-        datos=this.formatearDato(response);
-        datos.forEach(e => {
-          arrayData.push(e.valor);
-        });
-        rangos=this.crearRangos(arrayData,5);
-        var datosx=this.getColorPorDato(datos,rangos,this.colores);
-        res['id']=this.ambito;
-        res['rangos']=rangos;
-        res['colores']=this.colores;
-        res['data']=datosx;
-        this.setEsriMapDataSource(res);
+        var res=response.filter(x => x._id['Año'] == this.anio);
+        this.esriMapDataSource.next( this.formatearDato(res));
       }
-    );*/
+    );
 
 
   }
@@ -211,7 +199,7 @@ export class EsriMapService {
       const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=ccdd&anio=${this.anio}`;
       return this.http.get<esriMapData>(url).pipe(
         tap(response => {
-          var res={};
+          /*var res={};
           var datos,rangos,arrayData=[];
           this.colores=this.getColores(0,5);
           datos=this.formatearDato(response);
@@ -223,7 +211,8 @@ export class EsriMapService {
           res['id']=this.ambito;
           res['rangos']=rangos;
           res['colores']=this.colores;
-          res['data']=datosx;
+          res['data']=datosx;*/
+          var res = this.formatearDato(response);
 
           this.esriMapDataSource.next(res);
         }),
@@ -235,11 +224,33 @@ export class EsriMapService {
 
     }
 
-  formatearDato(datos) {
-    var data = datos.map(x => {
+  formatearDato(response) {
+
+
+
+    /*var response = datos.map(x => {
+      return {'codigo': x._id.codigo_mapa, 'valor': x.delitos};
+    });*/
+
+    var res={};
+    var datos,rangos,arrayData=[];
+    this.colores=this.getColores(0,5);
+
+    datos=response.map(x => {
       return {'codigo': x._id.codigo_mapa, 'valor': x.delitos};
     });
-    return data;
+
+    datos.forEach(e => {
+      arrayData.push(e.valor);
+    });
+    rangos=this.crearRangos(arrayData,5);
+    var datosx=this.getColorPorDato(datos,rangos,this.colores);
+    res['id']=this.ambito;
+    res['rangos']=rangos;
+    res['colores']=this.colores;
+    res['data']=datosx;
+
+    return res;
   }
 
 
