@@ -165,6 +165,15 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   }
 
   run(): void {
+    console.log(this.dimensiones);
+    let r = {};
+    this.dimensiones.forEach(x=>{
+      let values = x.options.filter(y=>y.selected) 
+      if(values.length>0){
+        r[x.name] = values.map(z=>z.id)
+      }      
+    });
+    console.log(r);
     this.config.cols = this.colsArray.map(x=>x.label);
     this.config.rows = this.rowsArray.map(x=>x.label);
     let group_by = this.colsArray.concat(this.rowsArray).map( x => x.field ).join(',');
@@ -173,7 +182,10 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     this.pool.concat(this.colsArray).concat(this.rowsArray).filter( x => x.filter != '').forEach(x => {
       params[x.field] = x.filter.split(',');
     });
-    let response = this.apiService.getIndicadorData(1, params).subscribe( res => {} );
+    r['groupby'] = group_by;
+    console.log(r);
+    console.log(params);
+    let response = this.apiService.getIndicadorData(1, r).subscribe( res => {} );
   }
 
   updateTable(): void {

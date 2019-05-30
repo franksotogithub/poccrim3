@@ -2,6 +2,7 @@
 	
 	<app-filter-input *ngFor='let dimension of dimensiones'
 		[label]="dimension.label"
+		[parent]=""
 		[show_options]="dimension.show_options"
 		[options]="dimension.options">		
 	</app-filter-input>

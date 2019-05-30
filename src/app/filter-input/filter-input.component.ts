@@ -9,8 +9,9 @@ export class FilterInputComponent implements OnInit {
   
   @Input() label: string;
   @Input() cod: string;
+  @Input() parent: string;
   @Input() show_options: boolean;
-  @Input() options: object[];
+  @Input() options: any[];
   filter: string;
 
   constructor() { }
@@ -37,6 +38,28 @@ export class FilterInputComponent implements OnInit {
 
   getFilter(): string{
   	return '';
+  }
+
+  getOptions(): object[]{
+  	if(this.parent){
+  		return this.options.filter(x=>x.parent==this.parent);
+  	}else{
+  		return this.options;
+  	}
+  }
+
+  check_all(): boolean{
+  	this.options.forEach(x=>{
+  		x.selected = true;
+  	});
+  	return true;
+  }
+
+  uncheck_all(): boolean{
+  	this.options.forEach(x=>{
+  		x.selected = false;
+  	});
+  	return true;
   }
 
 }

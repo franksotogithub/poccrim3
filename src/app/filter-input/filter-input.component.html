@@ -4,11 +4,12 @@
 		<input type="text" name="{{ cod }}_filter" [ngModel]="getFilter()">
 	</div>
 	<div class="options" *ngIf="show_options">
-		<div *ngFor='let opt of options'>
+		<div *ngFor='let opt of getOptions()'>
 			<input type="checkbox" [(ngModel)]=opt.selected> {{ opt.label }}
 		</div>
-		<div>
-			
-		</div>
+	</div>
+	<div *ngIf="show_options">
+		<button (click)="check_all()">Todos</button>
+		<button (click)="uncheck_all()">Ninguno</button>
 	</div>
 </div>
