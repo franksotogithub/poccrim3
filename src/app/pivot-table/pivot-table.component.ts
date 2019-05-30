@@ -39,6 +39,30 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   colsArray: any[];
   rowsArray: any[];
 
+  dimension: object[] = [
+    {
+      label: "Departamento",
+      show_options: "False",
+      options: [
+        { id: '01', label: 'AMAZONAS', selected: true },
+        { id: '02', label: 'APURIMAC', selected: true },
+        { id: '03', label: 'AREQUIPA', selected: true },
+        { id: '04', label: 'AYACUCHO', selected: true },
+        { id: '05', label: 'CAJAMARCA', selected: true },
+        { id: '06', label: 'CUSCO', selected: true },
+        { id: '07', label: 'HUANCAVELICA', selected: true },
+      ]
+    },
+    {
+      label: "Provincia",
+      show_options: "False",
+      options: [
+        { id: '0101', label: 'AMAZONAS', selected: true },
+        { id: '0101', label: 'AMAZONAS', selected: true },
+      ]
+    }
+  ]
+
   subs = new Subscription();
     
   private el: ElementRef;

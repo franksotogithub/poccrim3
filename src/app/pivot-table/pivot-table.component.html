@@ -1,6 +1,10 @@
 <div class="table-container">	
 	
-	<app-filter-input></app-filter-input>
+	<app-filter-input
+		[label]="dimension.label"
+		[show_options]="dimension.show_options"
+		[options]="dimension.options">		
+	</app-filter-input>
 
 	<button (click)="run()">RUN</button>
 

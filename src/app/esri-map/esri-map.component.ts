@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { loadModules } from 'esri-loader';
-import {EsriMapService} from '../esri-map.service';
+import { EsriMapService } from '../esri-map.service';
+import { ApiService } from '../api.service'
+import { Subscription }   from 'rxjs';
 //import * as esri from 'esri';
 declare var palette: any;
 
@@ -46,7 +48,22 @@ export class EsriMapComponent implements OnInit {
   
   private listPaletas=[];
 
-  constructor(private esriMapService: EsriMapService ){
+  dataSubs: Subscription;
+
+  constructor(
+    private esriMapService: EsriMapService,
+    private dataMapService: ApiService,
+  ){
+    this.dataSubs = this.dataMapService.loadedData$.subscribe(
+      res => {        
+        let parsed = {};
+        parsed['data'] = res.filter(x=>x._id['Año']=='2018').map(x=>{
+          return { codigo: x._id.codigo_mapa, color: '#009ae0' };
+        });
+        console.log('data_map', parsed);
+        this.actualizarCapaTematico(parsed,this.ambito);
+      }
+    );
     
     //this.colores=this.getColores(0,5);
   }
@@ -176,6 +193,9 @@ export class EsriMapComponent implements OnInit {
   
 
   public ngOnInit() {
+
+     
+
     //console.log('coloresss>>>',this.colores);
     this.inicializarMapa().then(_=>{
       //var resultados=[];

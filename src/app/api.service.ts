@@ -42,8 +42,19 @@ export class ApiService {
 	}
 
 	getIndicadorData(id: number, params: any): Observable<Object[]> {
-		console.log('stuff');
 		const url = `${this.api_url}delitos/`;
+		return this.http.get<Response[]>(url, { params: params }).pipe(
+			tap(_ => this.log(`fetched indicador data id=${id}`)),
+			tap(response => {		
+			    this.loadedDataSource.next(response);
+			}),							
+			catchError(this.handleError<Response[]>(`getIndicadorData id=${id}`))
+		);			
+	}
+
+	/*
+	getIndicadorDimensiones(id: number, params: any): Observable<Object[]> {
+		const url = `${this.api_url}dimensiones/`;
 		return this.http.get<Response[]>(url, { params: params }).pipe(
 			tap(_ => this.log(`fetched indicador data id=${id}`)),
 			tap(response => {		
@@ -53,6 +64,7 @@ export class ApiService {
 			catchError(this.handleError<Response[]>(`getIndicadorData id=${id}`))
 		);			
 	}
+	*/
 
 
 }
