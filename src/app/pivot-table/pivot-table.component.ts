@@ -213,7 +213,8 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subsData.unsubscribe();
-    this.subs.unsubscribe();
+    this.subsDimensions.unsubscribe();
+    this.subsDragula.unsubscribe();     
   } 
 
 }
