@@ -1,3 +1,4 @@
+
 .table-container {
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -5,16 +6,13 @@
 
 .drag_container {
 	width: 100%;
-	
+
 }
 
 .container {
 	min-height: 100%;
 }
 
-.wrapper {
-	border: solid;
-}
 
 .pool {
 	width: 100%;
@@ -25,29 +23,119 @@
 	min-height: 120px;
 }
 
-.rows {
-	max-width: 20%;
+
+/* :host /deep/ mySelector { */
+:host ::ng-deep #pivot > table.pvtUi > tr > td.pvtAxisContainer.pvtRows.pvtUiCell.ui-sortable {
+  display: none;
+
 }
 
-.table {
-	width: 80%;
+:host ::ng-deep #pivot > table.pvtUi > tr:nth-child(1), :host ::ng-deep #pivot > table.pvtUi > tr:nth-child(2) {
+  display: none;
+
+}
+:host ::ng-deep #pivot > table.pvtUi > tr:nth-child(1), :host ::ng-deep #pivot > table.pvtUi > tr > td.pvtRendererArea {
+  border-top:none;
+
 }
 
-.pvtAxisContainer {
-    display: none;
+:host ::ng-deep #pivot table.pvtTable thead tr th,:host ::ng-deep #pivot table.pvtTable tbody tr th {
+  background-color: #c1ebff;
+  border: 1px solid #999;
+  font-size: 8pt;
+  padding: 5px;
+  color: #1b3c71;
 }
 
-.dimension_box {
-	cursor: move;
-    background-color: #009ae0;
-    border: 1px solid #ddd;
-    padding: 5px 7px;
-    white-space: nowrap;
-    border-radius: 5px;
-    border-style: dashed;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    color: white;
+
+.contItwaiting{
+  padding:10px;
+
+  > div > div.dimension_box{
+      cursor: move;
+      background-color: #f5f5f5;
+      color: #1B3C71;
+      border: 2px dashed #1B3C71;
+      padding: 5px 7px;
+      white-space: nowrap;
+      border-radius: 5px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    font-size: 12px;
+  }
+}
+
+.contItactive{
+  padding:10px;
+  background-color: white;
+  margin:10px;
+  border: dashed 2px #29abe2;
+  width: calc(100% - 20px);
+  min-height: 50px;
+
+  > div {
+    padding: 0;
+    > div.dimension_box {
+      cursor: move;
+      background-color: #009ae0;
+      color: #FFF;
+      border: none;
+      white-space: nowrap;
+      border-radius: 5px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      font-size: 12px;
+
+      > div{
+        padding:5px 7px;
+      }
+      >input{
+
+      }
+    }
+  }
+}
+
+.contItactivecol{
+  padding:10px;
+  background-color: white;
+  margin:10px;
+  margin-right:0;
+  border: dashed 2px #29abe2;
+  width: calc(100% - 20px);
+
+  > div {
+    padding: 0;
+    > div.dimension_box {
+      cursor: move;
+      background-color: #009ae0;
+      color: #FFF;
+      border: none;
+      white-space: nowrap;
+      border-radius: 5px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      font-size: 12px;
+
+      > div{
+        padding:5px 7px;
+      }
+      >input{
+
+      }
+    }
+  }
+}
+
+
+.table{
+  padding: 0;
+  max-width: 79%;
+  width: 79%;
 }
