@@ -9,6 +9,7 @@
 
   /* Los div Breadcrumb */
   > div.dmk-breadcrumbv1{
+
     background-color: #1B3C71;
     min-height: 10px;
     max-height: 100%;
@@ -92,16 +93,22 @@
     }
   }
 
+  div.dmk-breadcrumbv1:hover div.group-select-menu{
+    display: block;
+  }
   /* desplegable del Menu */
    div.group-select-menu{
-    position: absolute;
-    z-index: 2;
-    background-color: white;
-    color:#1B3C71;
-    top:100%;
-    box-shadow: rgba(0,0,0,0.2) 0 0 6px ;
-    border-radius:3px;
-    padding:10px;
+     display:none;
+     position: absolute;
+     z-index: 2;
+     background-color: white;
+     color: #1B3C71;
+     top: 100%;
+     box-shadow: rgba(0, 0, 0, 0.2) 0 0 6px;
+     border-radius: 3px;
+     padding: 10px;
+     min-width: 240px;
+     left: -3px;
   }
 
   .dmk-select-cont{

@@ -3,12 +3,12 @@ import {EsriMapService} from '../esri-map.service';
 @Component({
   selector: 'app-herramientas-map',
   templateUrl: './herramientas-map.component.html',
-  styleUrls: ['./herramientas-map.component.css']
+  styleUrls: ['./herramientas-map.component.scss']
 })
 export class HerramientasMapComponent implements OnInit {
 
 
-  constructor(private esriMapService: EsriMapService) { 
+  constructor(private esriMapService: EsriMapService) {
 
   }
 
@@ -20,8 +20,8 @@ export class HerramientasMapComponent implements OnInit {
   }
   ngOnInit() {
 
-   
-    
+
+
   }
 
 }

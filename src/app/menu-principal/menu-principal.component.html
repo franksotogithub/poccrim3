@@ -1,12 +1,11 @@
 <div class="col contenedor-menuPrincipal">
   <div *ngFor="let itemMenu of breadCrumb; let ultimo = last; let indice = index"
        [ngClass]="{activo:ultimo}"
-       (click)="onClickMe(indice)"
        [attr.data-caida]="indice"
        class="dmk-breadcrumbv1">
         {{itemMenu.name}}
 
-    <div *ngIf="arrayBooleanMenu[indice]" class="group-select-menu">
+    <div *ngIf="true" class="group-select-menu">
       <div class="dmk-select-cont">
         <!--<div class="dmk-input-select">
           <div class="circulo-m">1.</div>
