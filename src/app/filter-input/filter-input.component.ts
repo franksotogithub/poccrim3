@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-filter-input',
@@ -7,14 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterInputComponent implements OnInit {
   
-  label: string;
-  show_options: boolean;
-  options: object[];
-  filter
+  @Input() label: string;
+  @Input() cod: string;
+  @Input() show_options: boolean;
+  @Input() options: object[];
+  filter: string;
 
   constructor() { }
 
   ngOnInit() {
+  	/*
   	this.label = 'Departamento';
   	this.show_options = false;
   	this.options = [
@@ -25,12 +27,16 @@ export class FilterInputComponent implements OnInit {
   		{ id: '05', label: 'CAJAMARCA', selected: true },
   		{ id: '06', label: 'CUSCO', selected: true },
   		{ id: '07', label: 'HUANCAVELICA', selected: true },
-  	]
+  	]*/
   }
 
   toggleOptions(): boolean {
   	this.show_options = !this.show_options;
   	return this.show_options;
+  }
+
+  getFilter(): string{
+  	return '';
   }
 
 }

@@ -1,4 +1,4 @@
 export class Response {
-	_id: object;
+	_id: any;
 	delitos: number;	
 }

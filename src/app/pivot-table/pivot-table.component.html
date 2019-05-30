@@ -1,21 +1,25 @@
 <div class="table-container">	
 	
-	<app-filter-input></app-filter-input>
+	<app-filter-input *ngFor='let dimension of dimensiones'
+		[label]="dimension.label"
+		[show_options]="dimension.show_options"
+		[options]="dimension.options">		
+	</app-filter-input>
 
 	<button (click)="run()">RUN</button>
 
 	<div class="drag_container">
 		<div class="wrapper row pool">
-			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.pool'>
-				<div class="dimension_box" *ngFor='let parameter of this.pool' >
+			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='pool'>
+				<div class="dimension_box" *ngFor='let parameter of pool' >
 					{{ parameter.label }}<br>
 					<input type="text" name="{{ parameter.field }}_filter" [(ngModel)]=parameter.filter>
 				</div>
 			</div>
 		</div>
 		<div class="wrapper row columns">
-			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.colsArray'>
-				<div class="dimension_box" *ngFor='let col of this.colsArray'>
+			<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
+				<div class="dimension_box" *ngFor='let col of colsArray'>
 					{{ col.label }}<br>
 					<input type="text" name="{{ col.field }}_filter" [(ngModel)]=col.filter>
 				</div>
@@ -23,8 +27,8 @@
 		</div>
 		<div class="row">
 			<div class="wrapper col rows">
-				<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='this.rowsArray'>
-					<div class="dimension_box" *ngFor='let row of this.rowsArray'>
+				<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='rowsArray'>
+					<div class="dimension_box" *ngFor='let row of rowsArray'>
 						{{ row.label }}<br>
 						<input type="text" name="{{ row.field }}_filter" [(ngModel)]=row.filter>
 					</div>

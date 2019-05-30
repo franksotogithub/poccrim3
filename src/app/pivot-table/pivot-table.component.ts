@@ -26,7 +26,10 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
   targetElement: any;
   
-  subscription: Subscription;
+  subsData: Subscription;
+  subsDimensions: Subscription;
+  subsDragula = new Subscription();
+
   data: Object[];
   parameters: any[];
 
@@ -39,7 +42,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   colsArray: any[];
   rowsArray: any[];
 
-  subs = new Subscription();
+  dimensiones: object[];
     
   private el: ElementRef;
   
@@ -78,7 +81,35 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     this.cols = 'Año';
   	this.rows = 'Departamento';
 
-    this.subs.add(dragulaService.dropModel(this.MANY_ITEMS)
+    /*
+    this.dimensiones = [
+      {
+        label: "Departamento",
+        cod: "ccdd",
+        show_options: false,
+        options: [
+          { id: '01', label: 'AMAZONAS', selected: true },
+          { id: '02', label: 'APURIMAC', selected: true },
+          { id: '03', label: 'AREQUIPA', selected: true },
+          { id: '04', label: 'AYACUCHO', selected: true },
+          { id: '05', label: 'CAJAMARCA', selected: true },
+          { id: '06', label: 'CUSCO', selected: true },
+          { id: '07', label: 'HUANCAVELICA', selected: true },
+        ]
+      },
+      {
+        label: "Provincia",
+        cod: "ccpp",
+        show_options: false,
+        options: [
+          { id: '0101', label: 'AMAZONAS', selected: true },
+          { id: '0101', label: 'AMAZONAS', selected: true },
+        ]
+      }
+    ];
+    */
+
+    this.subsDragula.add(dragulaService.dropModel(this.MANY_ITEMS)
       .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
         /*
         console.log('dropModel:');
@@ -91,7 +122,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
         */
       })
     );
-    this.subs.add(dragulaService.removeModel(this.MANY_ITEMS)
+    this.subsDragula.add(dragulaService.removeModel(this.MANY_ITEMS)
       .subscribe(({ el, source, item, sourceModel }) => {
         /*
         console.log('removeModel:');
@@ -112,7 +143,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     }    
   	this.targetElement = jQuery(this.el.nativeElement).find('#pivot');
   	this.config = this.getInitConfig();  	
-    this.subscription = this.apiService.loadedData$.subscribe(
+    this.subsData = this.apiService.loadedData$.subscribe(
       res => {
         let data = res.map(x => {
           let response = x._id;
@@ -123,6 +154,13 @@ export class PivotTableComponent implements OnInit, OnDestroy {
         this.updateTable();
       }
     ); 
+    this.subsDimensions = this.apiService.loadedDimensions$.subscribe(
+      res => {
+        console.log('res_dimensions', res);
+        this.dimensiones = res;
+      }
+    ); 
+    this.apiService.getIndicadorDimensiones(1, {}).subscribe( res => {} );
     this.run();
   }
 
@@ -143,7 +181,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     while (this.targetElement.firstChild){
       this.targetElement.removeChild(this.targetElement.firstChild);
     }        
-	this.targetElement.pivotUI(this.data, this.config, true, "es");
+    this.targetElement.pivotUI(this.data, this.config, true, "es");
   }
 
   getInitConfig(): object {
@@ -174,8 +212,9 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
-    this.subs.unsubscribe();
+    this.subsData.unsubscribe();
+    this.subsDimensions.unsubscribe();
+    this.subsDragula.unsubscribe();     
   } 
 
 }

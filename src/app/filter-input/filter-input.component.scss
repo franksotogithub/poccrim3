@@ -11,4 +11,15 @@
     margin-right: 5px;
     margin-bottom: 5px;
     color: white;
+    max-width: 200px;
+}
+
+.label span {
+    float: right;
+}
+
+.options {
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }

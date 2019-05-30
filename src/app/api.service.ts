@@ -18,8 +18,10 @@ export class ApiService {
 	private api_url = 'http://192.168.34.16:8877/poccrim/';
 
 	private loadedDataSource = new ReplaySubject<Response[]>(1);
+	private loadedDimensionsSource = new ReplaySubject<Response[]>(1);
 
 	loadedData$ = this.loadedDataSource.asObservable();
+	loadedDimensions$ = this.loadedDimensionsSource.asObservable();
 
 	constructor(	
 		private http: HttpClient,
@@ -42,17 +44,26 @@ export class ApiService {
 	}
 
 	getIndicadorData(id: number, params: any): Observable<Object[]> {
-		console.log('stuff');
 		const url = `${this.api_url}delitos/`;
 		return this.http.get<Response[]>(url, { params: params }).pipe(
 			tap(_ => this.log(`fetched indicador data id=${id}`)),
 			tap(response => {		
-				console.log("response>>", response);		
 			    this.loadedDataSource.next(response);
 			}),							
 			catchError(this.handleError<Response[]>(`getIndicadorData id=${id}`))
 		);			
 	}
 
+	getIndicadorDimensiones(id: number, params: any): Observable<Object[]> {
+		const url = `${this.api_url}dimensiones/`;
+		return this.http.get<Response[]>(url, { params: params }).pipe(
+			tap(_ => this.log(`fetched indicador data id=${id}`)),
+			tap(response => {		
+				console.log("response>>", response);		
+			    this.loadedDimensionsSource.next(response);
+			}),							
+			catchError(this.handleError<Response[]>(`getIndicadorDimensiones id=${id}`))
+		);			
+	}
 
 }
