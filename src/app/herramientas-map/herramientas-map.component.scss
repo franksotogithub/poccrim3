@@ -1,0 +1,24 @@
+.herramientas{
+  height: auto;
+  z-index: 1;
+  position: absolute;
+  top:10px;
+  right:  10px;
+  background-color: white;
+
+  .btnPeru{
+    background-image: url("src/assets/img/ico-peru.png");
+    background-size: contain;
+    border: none;
+    background-position: center;
+    background-color: #1B3C71;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 10px;
+    width: 41px;
+    height: 31px;
+    background-repeat: no-repeat;
+    outline: none;
+
+  }
+}

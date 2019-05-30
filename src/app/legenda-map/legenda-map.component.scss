@@ -1,0 +1,79 @@
+.legenda {
+  height: auto;
+  z-index: 1;
+  position: absolute;
+  bottom:10px;
+  left: 10px;
+  background-color: white;
+  box-shadow: 0px 0 5px #333;
+  border-radius:4px;
+  min-width: 140px;
+
+  .cabeceraLegend {
+    background-color: #1B3C71;
+    color: white;
+    padding: 8px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+
+    > h3 {
+      font-size: 12px;
+      display: inline;
+      margin-bottom: 0;
+      i{
+        font-size: 24px;
+        vertical-align: middle;
+        display: inline-block;
+        width: 27px;
+      }
+
+      span{
+        vertical-align: middle;
+        height: 17px;
+        display: inline-block;
+      }
+    }
+    > div{
+      display: inline;
+      >i{
+        font-size: 20px;
+        font-weight: bold;
+        vertical-align: middle;
+        display: inline-block;
+        cursor:pointer;
+        padding:0 5px;
+
+      }
+
+    }
+
+  }
+
+  .contLegend{
+    select{
+      background-color: #1B3C71;
+      color:white;
+      display:block;
+      padding: 3px 5px;
+      font-size: 10.5px;
+      border:none;
+      width: calc(100% - 10px);
+      margin:5px;
+    }
+    .itemLegend{
+      margin:5px;
+      font-size: 11px;
+      display: block;
+      > div{
+        display: inline-block;
+        font-size: 10px;
+        vertical-align: middle;
+        &:first-child{
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
