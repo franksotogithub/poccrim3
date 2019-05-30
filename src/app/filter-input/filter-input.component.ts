@@ -8,8 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FilterInputComponent implements OnInit {
   
   @Input() label: string;
+  @Input() cod: string;
   @Input() show_options: boolean;
   @Input() options: object[];
+  filter: string;
 
   constructor() { }
 
@@ -31,6 +33,10 @@ export class FilterInputComponent implements OnInit {
   toggleOptions(): boolean {
   	this.show_options = !this.show_options;
   	return this.show_options;
+  }
+
+  getFilter(): string{
+  	return '';
   }
 
 }
