@@ -47,7 +47,7 @@ export class EsriMapComponent implements OnInit {
     {id: 4, color: '#E20613'},
   ];
 
-  private listPaletas = [];
+  private datosResponse ;
 
   dataSubs: Subscription;
 
@@ -56,18 +56,18 @@ export class EsriMapComponent implements OnInit {
     //private dataMapService: ApiService,
   ) {
 
-/*
-    this.dataSubs = this.dataMapService.loadedData$.subscribe(
-      res => {
-        let parsed = {};
-        parsed['data'] = res.filter(x => x._id['Año'] == '2018').map(x => {
-          return {codigo: x._id.codigo_mapa, color: '#009ae0'};
-        });
-        console.log('data_map', parsed);
-        this.actualizarCapaTematico(parsed, this.ambito);
-      }
-    );
-*/
+    /*
+        this.dataSubs = this.dataMapService.loadedData$.subscribe(
+          res => {
+            let parsed = {};
+            parsed['data'] = res.filter(x => x._id['Año'] == '2018').map(x => {
+              return {codigo: x._id.codigo_mapa, color: '#009ae0'};
+            });
+            console.log('data_map', parsed);
+            this.actualizarCapaTematico(parsed, this.ambito);
+          }
+        );
+    */
 
     /*    this.esriMapService.getEsriMapDataSource().subscribe(res => {
           console.log('res map>>>',res);
@@ -80,6 +80,29 @@ export class EsriMapComponent implements OnInit {
     //this.colores=this.getColores(0,5);
   }
 
+  async getExtentUbigeos(queryText: Text, urlService: Text) {
+    try {
+      const [QueryTask, Query] = await loadModules(['esri/tasks/QueryTask', 'esri/tasks/query'], this.optionsApi);
+
+      let queryTask = new QueryTask(urlService);
+      let query = new Query();
+      query.returnGeometry = true;
+      query.outFields = ['*'];
+      query.where = queryText;
+
+
+      queryTask.executeForExtent(query, function(result) {
+        console.log('result>>>>', result);
+        this.map.setExtent(result.extent);
+
+      });
+
+    } catch (error) {
+      console.log('EsriLoader: ', error);
+
+    }
+
+  }
 
   async inicializarMapa() {
     try {
@@ -129,14 +152,45 @@ export class EsriMapComponent implements OnInit {
   }
 
 
-  async actualizarCapaTematico(res, index) {
+  async actualizarCapaTematico(res, index , estratos) {
     try {
       const [Color, SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer] = await loadModules(['esri/Color',
         'esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleLineSymbol',
         'esri/renderers/UniqueValueRenderer'], this.optionsApi);
 
-
+      var c=[];
+      var color;
+      var found;
+      var outline=1;
       var uniqueValueInfos = res.data.map(e => {
+        color=e.color;
+        outline=1;
+        c=this.hex2rgb(color).rgb;
+
+        found=estratos.find( estrato => e.estrato===estrato);
+
+        if(found==undefined)
+        {
+          outline=0;
+          c.push(0.2);
+        }
+        else{
+          outline=1;
+          c.push(1);
+        }
+
+        return {
+          value: e.codigo,
+          symbol: new SimpleFillSymbol(
+            'solid'
+            , new SimpleLineSymbol().setWidth(outline)
+            , new Color(c))
+        };
+
+
+      });
+
+      /*var uniqueValueInfos = res.data.map(e => {
         return {
           value: e.codigo,
           symbol: new SimpleFillSymbol(
@@ -144,11 +198,11 @@ export class EsriMapComponent implements OnInit {
             , new SimpleLineSymbol().setWidth(1)
             , new Color(e.color))
         };
-      });
+      });*/
 
       var defaultSymbol = new SimpleFillSymbol(
-        "solid"
-        , new SimpleLineSymbol("solid", new Color([0,0,0,1]), 1)
+        'solid'
+        , new SimpleLineSymbol('solid', new Color([0, 0, 0, 1]), 1)
         , new Color(this.colorGris));
 
       var layerRenderer = new UniqueValueRenderer({
@@ -156,7 +210,7 @@ export class EsriMapComponent implements OnInit {
         'field1': 'CODIGO',
         'uniqueValueInfos': uniqueValueInfos,
 
-        "defaultSymbol":defaultSymbol,
+        'defaultSymbol': defaultSymbol,
       });
 
       var capa = this.capasTematicos.find(x => x.id == index);
@@ -182,6 +236,17 @@ export class EsriMapComponent implements OnInit {
     });
   }
 
+  hex2rgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+      rgb: [parseInt(result[1], 16) , parseInt(result[2], 16), parseInt(result[3], 16)]
+    } : null;
+  }
+
+
 
   public ngOnInit() {
 
@@ -200,7 +265,7 @@ export class EsriMapComponent implements OnInit {
       this.esriMapService.getAmbito().subscribe(ambito => {
           this.ambito = ambito;
           this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
-            console.log('getAmbito res>>',res);
+            console.log('getAmbito res>>', res);
           });
 
         }
@@ -215,12 +280,17 @@ export class EsriMapComponent implements OnInit {
       });
 
       this.esriMapService.getEsriMapDataSource().subscribe(res => {
-        this.ambito=res['ambito'];
-        this.actualizarCapaTematico(res, this.ambito).then(_ => {
+        this.datosResponse = res;
+        this.ambito = res['ambito'];
+
+        this.actualizarCapaTematico(res, this.ambito,[0,1,2,3,4]).then(_ => {
           this.cambiarAmbito(this.ambito);
         });
       });
 
+      this.esriMapService.getEstratosDataSources().subscribe( estratos =>{
+        this.actualizarCapaTematico(this.datosResponse,this.ambito ,estratos);
+      });
 
 
     });

@@ -32,6 +32,7 @@ export class EsriMapService {
 
   private esriMapDataSource = new BehaviorSubject<any>(0);
   private esriMapDataSources = new BehaviorSubject<any[]>([]);
+  private estratosDataSources = new BehaviorSubject<any[]>([]);
   private colorGris = '#9c9c9c';
   private colores = [];
   private group = 'ccdd';
@@ -311,5 +312,15 @@ export class EsriMapService {
   getBtnResetPeruSource(): Observable<any> {
     return this.clickBtnResetPeruSource;
   }
+
+  getEstratosDataSources(): Observable<any> {
+      return this.estratosDataSources;
+  }
+
+  setEstratosDataSources(estratos){
+
+    this.estratosDataSources.next(estratos);
+  }
+
 
 }
