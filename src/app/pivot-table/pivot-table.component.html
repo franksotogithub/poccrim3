@@ -1,9 +1,11 @@
 <div class="table-container">
 
 	<app-filter-input *ngFor='let dimension of dimensiones'
+		[name]="dimension.name"
 		[label]="dimension.label"
-		[show_options]="dimension.show_options"
-		[options]="dimension.options">
+		[parent]="dimension.parent"
+		[options]="dimension.options"
+		[filters]="filters">
 	</app-filter-input>
 
 	<button (click)="run()">RUN</button>

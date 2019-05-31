@@ -8,14 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FilterInputComponent implements OnInit {
   
   @Input() label: string;
-  @Input() cod: string;
-  @Input() show_options: boolean;
-  @Input() options: object[];
-  filter: string;
+  @Input() name: string;
+  @Input() parent: string;
+  @Input() options: any[];
+  @Input() filters: object;
+
+  show_options: boolean;
 
   constructor() { }
 
   ngOnInit() {
+  	this.show_options = false;
+  	this.filters[this.name] = this.getFilterIds();
   	/*
   	this.label = 'Departamento';
   	this.show_options = false;
@@ -37,6 +41,41 @@ export class FilterInputComponent implements OnInit {
 
   getFilter(): string{
   	return '';
+  }
+
+  getFilterIds(): object[]{
+  	console.log('filterids');
+  	return this.options.filter(x=>x.selected).map(x=>x.id);
+  }
+
+  getOptions(): object[]{
+  	if(this.filters.hasOwnProperty(this.parent)){
+  		return this.options.filter(x=>this.filters[this.parent].includes(x.parent));	  	
+	}else{
+		return this.options;
+	}
+  	
+  }
+
+  check_all(): boolean{
+  	this.options.forEach(x=>{
+  		x.selected = true;
+  	});
+  	this.update_filters();
+  	return true;
+  }
+
+  uncheck_all(): boolean{
+  	this.options.forEach(x=>{
+  		x.selected = false;
+  	});
+  	this.update_filters();
+  	return true;
+  }
+
+  update_filters(): boolean{
+  	this.filters[this.name] = this.options.filter(x=>x.selected).map(x=>x.id);
+  	return true;
   }
 
 }
