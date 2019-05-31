@@ -20,7 +20,8 @@ export class HerramientasMapComponent implements OnInit {
   }
   btnAddGraphic(event){
     var tipo = event.target.id;
-    console.log('click event',event.target.id);
+
+    console.log('click event',event);
 
     this.esriMapService.clickBtnAddGraphic(tipo);
   }

@@ -130,7 +130,7 @@ export class EsriMapComponent implements OnInit {
           symbol = fillSymbol;
         }*/
         graphic = new Graphic(evt.geometry, symbol)
-        this.map.graphics.add(graphic);
+        //this.map.graphics.add(graphic);
         this.map.setExtent(evt.geometry.getExtent());
 
 
@@ -146,6 +146,7 @@ export class EsriMapComponent implements OnInit {
       });
 */
       const tool = tipo.toLowerCase();
+      (tool=='')?tool='extent':true;
       this.map.disableMapNavigation();
       tb.activate(tool);
 
