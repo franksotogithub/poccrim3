@@ -4,9 +4,11 @@
   color:white;
   padding:8px 15px;
   margin:10px;
+  margin-right: 0;
   border-radius:5px;
   outline:none;
   font-size: 14px;
+  width: calc(100% - 10px);
   &:hover {
     background-color: #ed602f;
   }
@@ -155,4 +157,7 @@
   padding: 0;
   max-width: 79%;
   width: 79%;
+  max-height: 645px;
+  overflow: auto;
+  margin-bottom: 0;
 }

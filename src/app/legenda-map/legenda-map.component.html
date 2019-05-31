@@ -32,8 +32,9 @@
           </select>
 
             <div class="itemLegend" *ngFor="let rango of datos.rangos ; let i=index ">
-             <input type="checkbox" (change)="checkedEstrato(i,$event)">  <div [ngStyle]="{'height':'20px','width':'20px','background-color':datos.colores[i].color  }">
-              </div>  <div>De {{rango.min_valor}} hasta {{rango.max_valor}}</div>
+             <input type="checkbox" (change)="checkedEstrato(i,$event)" style="margin-right: 3px; vertical-align: middle;">
+              <div [ngStyle]="{'height':'20px','width':'20px','background-color':datos.colores[i].color  }">
+              </div>  <div style="margin:0 5px;">De {{rango.min_valor}} hasta {{rango.max_valor}}</div>
             </div>
         </div>
      </div>

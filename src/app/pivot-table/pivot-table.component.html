@@ -1,6 +1,6 @@
 <div class="table-container">
 
-	<button class="btnEjecutarCon" (click)="run()">Ejecutar Consulta</button>
+
 
 	<div class="drag_container">
 		<div class=" row pool contItwaiting">
@@ -14,17 +14,30 @@
 				</app-filter-input>
 			</div>
 		</div>
-		<div class="row columns contItactive">
-			<div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
-				<app-filter-input *ngFor='let dimension of colsArray'
-					[name]="dimension.name"
-					[label]="dimension.label"
-					[parent]="dimension.parent"
-					[options]="dimension.options"
-					[filters]="filters">
-				</app-filter-input>
-			</div>
-		</div>
+
+    <div class="row m-0">
+      <div style="width: 150px;" >
+        <button class="btnEjecutarCon" (click)="run()"> <!--<i class="material-icons">
+          update
+        </i>-->  Ejecutar <br> Consulta</button>
+      </div>
+
+      <div class="col rows p-0" >
+        <div class="row columns contItactive mb-0">
+          <div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
+            <app-filter-input *ngFor='let dimension of colsArray'
+                              [name]="dimension.name"
+                              [label]="dimension.label"
+                              [parent]="dimension.parent"
+                              [options]="dimension.options"
+                              [filters]="filters">
+            </app-filter-input>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
 		<div class="row m-0" >
 			<div class=" col rows contItactivecol">
