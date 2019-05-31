@@ -1,4 +1,16 @@
-
+.btnEjecutarCon{
+  border:none;
+  background-color: #ed7203;
+  color:white;
+  padding:8px 15px;
+  margin:10px;
+  border-radius:5px;
+  outline:none;
+  font-size: 14px;
+  &:hover {
+    background-color: #ed602f;
+  }
+}
 .table-container {
 	padding-top: 1em;
 	padding-bottom: 1em;

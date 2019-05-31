@@ -4,10 +4,10 @@
 			<i class="material-icons">keyboard_arrow_down</i>
 		</span>
 	</div>
-	
+
 	<div class="flotarListaDimension" *ngIf="show_options">
 		<div class="search">
-			<input type="text" placeholder="Buscar..." [(ngModel)]="search_text">
+			<input type="search" placeholder="Buscar..." [(ngModel)]="search_text">
 		</div>
 		<div class="options" *ngIf="show_options">
 			<div *ngFor='let opt of getOptions()'>

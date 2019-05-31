@@ -26,6 +26,15 @@
   left: 0;
   color: #333;
 
+  .search input{
+    padding: 3px 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    border:none;
+    background-color: #e0f0ff;
+    color:#1B3C71;
+  }
+
   button{
     border:none;
     background-color: #1B3C71;

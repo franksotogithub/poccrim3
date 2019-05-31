@@ -10,7 +10,7 @@ import { MenuArbolService } from '../menu-arbol.service';
 })
 export class MenuPrincipalComponent implements OnInit {
   public dataArbol: any = null;
-  configInit: any[] =[1,48,10071];
+  configInit: any[] =[1,2,3];
   breadCrumb: any[] = [];
   elementoArray: any;
   grupoArray: any[] = [];
