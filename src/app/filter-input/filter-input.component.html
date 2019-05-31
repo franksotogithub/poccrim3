@@ -1,15 +1,23 @@
-<div class="dimension_box">
-	<div class="label">{{ label }} <span class="control" (click)="toggleOptions()">X</span></div>
+<div class="dimension_box" [ngClass]="show_options ? 'optOpen':''">
+	<div class="label">{{ label }}
+    <span class="control"
+          (click)="toggleOptions()">
+      <i class="material-icons">keyboard_arrow_down</i>
+    </span>
+  </div>
 	<!--div class="input">
 		<input type="text" name="{{ cod }}_filter" [ngModel]="getFilter()">
 	</div-->
-	<div class="options" *ngIf="show_options">
-		<div *ngFor='let opt of getOptions()'>
-			<input type="checkbox" [(ngModel)]=opt.selected (change)=update_filters()> {{ opt.label }}
-		</div>
-	</div>
-	<div *ngIf="show_options">
-		<button (click)="check_all()">Todos</button>
-		<button (click)="uncheck_all()">Ninguno</button>
-	</div>
+	<div class="flotarListaDimension" *ngIf="show_options">
+    <div class="options" *ngIf="show_options">
+      <div *ngFor='let opt of getOptions()'>
+        <input type="checkbox" [(ngModel)]=opt.selected (change)=update_filters()> {{ opt.label }}
+      </div>
+    </div>
+    <div *ngIf="show_options" style="padding-top: 10px;">
+      <button (click)="check_all()">Todos</button>
+      <button (click)="uncheck_all()">Ninguno</button>
+    </div>
+  </div>
+
 </div>

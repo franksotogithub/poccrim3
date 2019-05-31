@@ -1,4 +1,5 @@
 .dimension_box {
+  position: relative;
     cursor: move;
     background-color: #009ae0;
     border: 1px solid #ddd;
@@ -14,12 +15,71 @@
     max-width: 200px;
 }
 
-.label span {
+.flotarListaDimension {
+
+  position: absolute;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 9;
+  box-shadow: 0 0 5px rgba(0,0,0,0.4);
+  left: 0;
+  color: #333;
+
+  button{
+    border:none;
+    background-color: #1B3C71;
+    color:white;
+    border-radius: 5px;
+    padding:3px 10px;
+    margin-right:5px;
+    &:last-child{
+      margin-right: 0 ;
+    }
+    &:hover{
+      background-color: #009ae0;
+    }
+  }
+
+
+}
+
+.label{
+  display: inline-flex;
+  padding: 0;
+  span {
     float: right;
+    padding-left: 5px;
+  }
+  i{
+    font-size: 20px;
+    height: 20px;
+  }
 }
 
 .options {
     max-height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
+
 }
+
+.optOpen {background-color: #1B3C71 !important;color: white !important; }
+
+.options::-webkit-scrollbar-track
+{
+  background-color: transparent;
+}
+
+.options::-webkit-scrollbar
+{
+  width: 7px;
+  background-color: #F5F5F5;
+}
+
+.options::-webkit-scrollbar-thumb
+{
+  background-color: #1b3c71;
+  border: none;
+}
+

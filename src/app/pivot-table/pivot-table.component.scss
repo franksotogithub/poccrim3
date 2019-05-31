@@ -50,10 +50,11 @@
 }
 
 
-.contItwaiting{
+:host ::ng-deep .contItwaiting{
   padding:10px;
+  min-height: 50px;
 
-  > div > div.dimension_box{
+  > div  div.dimension_box{
       cursor: move;
       background-color: #f5f5f5;
       color: #1B3C71;
@@ -69,7 +70,7 @@
   }
 }
 
-.contItactive{
+:host ::ng-deep .contItactive{
   padding:10px;
   background-color: white;
   margin:10px;
@@ -79,7 +80,7 @@
 
   > div {
     padding: 0;
-    > div.dimension_box {
+    div.dimension_box {
       cursor: move;
       background-color: #009ae0;
       color: #FFF;
@@ -93,7 +94,7 @@
       font-size: 12px;
 
       > div{
-        padding:5px 7px;
+        /*padding:5px 7px;*/
       }
       >input{
 
@@ -102,7 +103,7 @@
   }
 }
 
-.contItactivecol{
+:host ::ng-deep .contItactivecol{
   padding:10px;
   background-color: white;
   margin:10px;
@@ -112,25 +113,26 @@
 
   > div {
     padding: 0;
-    > div.dimension_box {
-      cursor: move;
-      background-color: #009ae0;
-      color: #FFF;
-      border: none;
-      white-space: nowrap;
-      border-radius: 5px;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5px;
-      margin-bottom: 5px;
-      font-size: 12px;
+  }
 
-      > div{
-        padding:5px 7px;
-      }
-      >input{
+  div.dimension_box {
+    cursor: move;
+    background-color: #009ae0;
+    color: #FFF;
+    border: none;
+    white-space: nowrap;
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
 
-      }
+    > div{
+      /*padding:5px 7px;*/
+    }
+    >input{
+
     }
   }
 }
