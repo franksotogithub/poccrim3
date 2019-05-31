@@ -68,16 +68,26 @@ export class MenuPrincipalComponent implements OnInit {
         this.grupoArray[position + 1] = this.grupoArray[position][positionItem].children;
 
       }else if(position + 1 > 1 ){
-
-
         if(this.grupoArray[position][positionItem].children.length > 0){
-          console.log(this.breadCrumb.length + " , " + (position + 1));
+          let i;
+          //console.log(this.breadCrumb.length + " , " + (position + 1));
           this.breadCrumb[position]=this.grupoArray[position][positionItem];
-          console.log(this.breadCrumb);
+          //console.log(this.breadCrumb);
+
+          for(i = position+1; i <= this.breadCrumb.length ; i++ ){
+            this.breadCrumb.splice(i, 1);
+          }
           this.breadCrumb[position + 1] = {name:"Seleccione por favor"};
           this.grupoArray[position + 1] = this.grupoArray[position][positionItem].children;
         }else{
+          let i;
+          if(position+1 < this.breadCrumb.length ){
+            for(i = position+1; i <= this.breadCrumb.length ; i++ ){
+              this.breadCrumb.splice(i, 1);
+            }
+          }
 
+          this.breadCrumb[position] = {name:this.grupoArray[position][positionItem].name};
         }
 
       }
@@ -86,10 +96,5 @@ export class MenuPrincipalComponent implements OnInit {
 
 
   }
-
-  verificarIdMenu(){
-
-}
-
 
 }
