@@ -19,6 +19,8 @@ export class LegendaMapComponent implements OnInit {
   ];
   private selectedItem = this.items[0];
 
+  private estratos =[];
+
   private itemsVariables = [
     /*{id: 'P010100', text: 'P010100'},
     {id: 'P010101', text: 'P010101'},
@@ -60,6 +62,13 @@ export class LegendaMapComponent implements OnInit {
 
   setSelectedAmbito(ambito: any) {
     this.selectedItem = this.items.find(x => x.id === ambito);
+  }
+
+  checkedEstrato(estrato: any,event:any){
+    let checked = event.target.checked;
+    (checked)? this.estratos.push(estrato) : this.estratos = this.estratos.filter(item=> item !== estrato );
+    this.esriMapService.setEstratosDataSources(this.estratos);
+
   }
 
   ngOnInit() {
