@@ -43,7 +43,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   colsArray: any[];
   rowsArray: any[];
 
-  dimensiones: object[];
+  dimensiones: any[];
     
   private el: ElementRef;
   
