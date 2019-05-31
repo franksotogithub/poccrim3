@@ -1,8 +1,5 @@
 <div class="dimension_box">
 	<div class="label">{{ label }} <span class="control" (click)="toggleOptions()">X</span></div>
-	<!--div class="input">
-		<input type="text" name="{{ cod }}_filter" [ngModel]="getFilter()">
-	</div-->
 	<div class="options" *ngIf="show_options">
 		<div *ngFor='let opt of getOptions()'>
 			<input type="checkbox" [(ngModel)]=opt.selected (change)=update_filters()> {{ opt.label }}

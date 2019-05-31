@@ -199,6 +199,7 @@ export class EsriMapService {
   */
 
     obtenerDatosMapaTematico(){
+
       const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
       return this.http.get<esriMapData>(url).pipe(
         tap(response => {

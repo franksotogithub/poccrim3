@@ -83,42 +83,14 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
     this.filters = {};
 
-    /*
-    this.dimensiones = [
-      {
-        label: "Departamento",
-        name: "ccdd",
-        parent: null,
-        options: [
-          { id: '01', label: 'AMAZONAS', selected: true },
-          { id: '02', label: 'APURIMAC', selected: true },
-          { id: '03', label: 'AREQUIPA', selected: true },
-          { id: '04', label: 'AYACUCHO', selected: true },
-          { id: '05', label: 'CAJAMARCA', selected: true },
-          { id: '06', label: 'CUSCO', selected: true },
-          { id: '07', label: 'HUANCAVELICA', selected: true },
-        ]
-      },
-      {
-        label: "Provincia",
-        name: "ccpp",
-        parent: "ccdd",
-        options: [
-          { id: '0101', parent: '01', label: 'AMAZONAS', selected: true },
-          { id: '0101', parent: '02', label: 'AMAZONAS2', selected: true },
-        ]
-      }
-    ];
-    */
-
     this.subsDragula.add(dragulaService.dropModel(this.MANY_ITEMS)
       .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
-        let element = {            
-          label: el.getAttribute('ng-reflect-label'),          
-          field: el.getAttribute('ng-reflect-name'),
-        };        
-        console.log(sourceModel);
-        targetModel.push(element);        
+        console.log('el', el);
+        console.log('target', target);
+        console.log('source', source);
+        console.log('sourceModel', sourceModel);
+        console.log('targetModel', targetModel);        
+        console.log('item', item); 
       })
     );
     
@@ -147,6 +119,9 @@ export class PivotTableComponent implements OnInit, OnDestroy {
       res => {
         console.log('res_dimensions', res);
         this.dimensiones = res;
+        this.pool = res.filter(x=>x.name!='ccdd' && x.name!='anio');
+        this.rowsArray = res.filter(x=>x.name=='ccdd');
+        this.colsArray = res.filter(x=>x.name=='anio');
       }
     ); 
     this.apiService.getIndicadorDimensiones(1, {}).subscribe( res => {
@@ -177,7 +152,8 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     r = this.filters;
     this.config.cols = this.colsArray.map(x=>x.label);
     this.config.rows = this.rowsArray.map(x=>x.label);
-    let group_by = this.colsArray.concat(this.rowsArray).map( x => x.field ).join(',');
+    console.log('to_group_by', this.colsArray.concat(this.rowsArray));
+    let group_by = this.colsArray.concat(this.rowsArray).map( x => x.name ).join(',');
     let params = { groupby: group_by }
     //this.parameters.filter( x => x.filter != '').forEach(x => {    
     r['groupby'] = group_by;
