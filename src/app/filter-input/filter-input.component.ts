@@ -13,6 +13,8 @@ export class FilterInputComponent implements OnInit {
   @Input() options: any[];
   @Input() filters: object;
 
+
+  search_text: string;
   all_selected: boolean;
   show_options: boolean;
 
@@ -21,6 +23,7 @@ export class FilterInputComponent implements OnInit {
   ngOnInit() {
   	this.show_options = false;
   	this.all_selected = true;
+    this.search_text = '';
   	this.update_filters();
   	//this.filters[this.name] = this.getFilterIds();
   	/*
@@ -52,12 +55,16 @@ export class FilterInputComponent implements OnInit {
   }
 
   getOptions(): object[]{
+    let response = this.options;
+    if(this.search_text!=''){
+      response = response.filter(x=>x.label.includes(this.search_text.toUpperCase()));
+    }    
   	if(this.filters.hasOwnProperty(this.parent)){
   		if(this.filters[this.parent] != null){
-			return this.options.filter(x=>this.filters[this.parent].includes(x.parent));
-		}
-	}
-	return this.options; 	
+  			return response.filter(x=>this.filters[this.parent].includes(x.parent));
+  		}
+  	}
+  	return response; 	
   }
 
   check_all(): boolean{
@@ -78,7 +85,6 @@ export class FilterInputComponent implements OnInit {
   }
 
   update_filters(): boolean{
-  	console.log('update');
   	if(this.all_selected){
   		this.filters[this.name] = null;
   		delete this.filters[this.name];
@@ -86,11 +92,6 @@ export class FilterInputComponent implements OnInit {
   		this.filters[this.name] = this.options.filter(x=>x.selected).map(x=>x.id);
   	}  	
   	return true;
-  }
-
-  getHelloWorld(): string{
-  	console.log('asd');
-  	return 'hello world';
   }
 
 }
