@@ -13,13 +13,16 @@ export class FilterInputComponent implements OnInit {
   @Input() options: any[];
   @Input() filters: object;
 
+  all_selected: boolean;
   show_options: boolean;
 
   constructor() { }
 
   ngOnInit() {
   	this.show_options = false;
-  	this.filters[this.name] = this.getFilterIds();
+  	this.all_selected = true;
+  	this.update_filters();
+  	//this.filters[this.name] = this.getFilterIds();
   	/*
   	this.label = 'Departamento';
   	this.show_options = false;
@@ -50,11 +53,11 @@ export class FilterInputComponent implements OnInit {
 
   getOptions(): object[]{
   	if(this.filters.hasOwnProperty(this.parent)){
-  		return this.options.filter(x=>this.filters[this.parent].includes(x.parent));	  	
-	}else{
-		return this.options;
+  		if(this.filters[this.parent] != null){
+			return this.options.filter(x=>this.filters[this.parent].includes(x.parent));
+		}
 	}
-  	
+	return this.options; 	
   }
 
   check_all(): boolean{
@@ -69,13 +72,25 @@ export class FilterInputComponent implements OnInit {
   	this.options.forEach(x=>{
   		x.selected = false;
   	});
+  	this.all_selected = false;
   	this.update_filters();
   	return true;
   }
 
   update_filters(): boolean{
-  	this.filters[this.name] = this.options.filter(x=>x.selected).map(x=>x.id);
+  	console.log('update');
+  	if(this.all_selected){
+  		this.filters[this.name] = null;
+  		delete this.filters[this.name];
+  	}else{
+  		this.filters[this.name] = this.options.filter(x=>x.selected).map(x=>x.id);
+  	}  	
   	return true;
+  }
+
+  getHelloWorld(): string{
+  	console.log('asd');
+  	return 'hello world';
   }
 
 }

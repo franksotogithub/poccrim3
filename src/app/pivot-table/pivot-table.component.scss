@@ -2,6 +2,8 @@
 .table-container {
 	padding-top: 1em;
 	padding-bottom: 1em;
+  max-height: 94vh;
+  overflow-y: auto;
 }
 
 .drag_container {

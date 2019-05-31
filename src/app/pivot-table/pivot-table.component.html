@@ -1,40 +1,43 @@
 <div class="table-container">
 
-	<app-filter-input *ngFor='let dimension of dimensiones'
-		[name]="dimension.name"
-		[label]="dimension.label"
-		[parent]="dimension.parent"
-		[options]="dimension.options"
-		[filters]="filters">
-	</app-filter-input>
+	
 
 	<button (click)="run()">RUN</button>
 
 	<div class="drag_container">
 		<div class=" row pool contItwaiting">
 			<div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='pool'>
+
+				<app-filter-input *ngFor='let dimension of dimensiones'
+					[name]="dimension.name"
+					[label]="dimension.label"
+					[parent]="dimension.parent"
+					[options]="dimension.options"
+					[filters]="filters">
+				</app-filter-input>
+				<!--
 				<div class="dimension_box" *ngFor='let parameter of pool' >
 					{{ parameter.label }}<br>
-					<!--<input type="text" name="{{ parameter.field }}_filter" [(ngModel)]=parameter.filter>-->
+					<input type="text" name="{{ parameter.field }}_filter" [(ngModel)]=parameter.filter>
 				</div>
+				-->
 			</div>
 		</div>
-		<div class=" row columns contItactive">
+		<div class="row columns contItactive">
 			<div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
+				<!--
 				<div class="dimension_box" *ngFor='let col of colsArray'>
 					<div>{{ col.label }}</div>
-					<!--<input type="text" name="{{ col.field }}_filter" [(ngModel)]=col.filter>-->
+					
 				</div>
+				-->
 			</div>
 		</div>
 
 		<div class="row m-0" >
 			<div class=" col rows contItactivecol">
 				<div class="container" dragula="MANY_ITEMS" [(dragulaModel)]='rowsArray'>
-					<div class="dimension_box" *ngFor='let row of rowsArray'>
-            <div>{{ row.label }}</div>
-						<!--<input type="text" name="{{ row.field }}_filter" [(ngModel)]=row.filter>-->
-					</div>
+					
 				</div>
 			</div>
 			<div class="col table">
