@@ -65,20 +65,19 @@ export class PivotTableComponent implements OnInit, OnDestroy {
       { field: 'especifico', label: 'Específico', filter: '', status: false },
       { field: 'modalidad', label: 'Modalidad', filter: '', status: false },
     ];
-    this.pool = [
-      { field: 'ccpp', label: 'Provincia', filter: '', status: false },
-      { field: 'ccdi', label: 'Distrito', filter: '', status: false },
-      { field: 'entidad', label: 'Entidad', filter: '', status: false },
-      { field: 'generico', label: 'Genérico', filter: '', status: false },
-      { field: 'especifico', label: 'Específico', filter: '', status: false },
-      { field: 'modalidad', label: 'Modalidad', filter: '', status: false },
-    ];
+    
+    /*
     this.colsArray = [
       { field: 'anio', label: 'Año', filter: '', status: true },      
     ];
     this.rowsArray = [      
       { field: 'ccdd', label: 'Departamento', filter: '', status: true },      
     ];
+    */
+    this.pool = [];
+    this.colsArray = [];
+    this.rowsArray = [];
+
     this.cols = 'Año';
   	this.rows = 'Departamento';
 
@@ -114,28 +113,15 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
     this.subsDragula.add(dragulaService.dropModel(this.MANY_ITEMS)
       .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
-        /*
-        console.log('dropModel:');
-        console.log(el);
-        console.log(source);
-        console.log(target);
+        let element = {            
+          label: el.getAttribute('ng-reflect-label'),          
+          field: el.getAttribute('ng-reflect-name'),
+        };        
         console.log(sourceModel);
-        console.log(targetModel);
-        console.log(item);
-        */
+        targetModel.push(element);        
       })
     );
-    this.subsDragula.add(dragulaService.removeModel(this.MANY_ITEMS)
-      .subscribe(({ el, source, item, sourceModel }) => {
-        /*
-        console.log('removeModel:');
-        console.log(el);
-        console.log(source);
-        console.log(sourceModel);
-        console.log(item);
-        */
-      })
-    );
+    
 
   }
 
@@ -163,32 +149,39 @@ export class PivotTableComponent implements OnInit, OnDestroy {
         this.dimensiones = res;
       }
     ); 
-    this.apiService.getIndicadorDimensiones(1, {}).subscribe( res => {} );
-    this.run();
+    this.apiService.getIndicadorDimensiones(1, {}).subscribe( res => {
+      this.run();
+    } );
+    
   }
 
   run(): void {
-    console.log('filters: ', this.filters);
+    this.pool = this.pool.filter(x=>x!=undefined);
+    this.colsArray = this.colsArray.filter(x=>x!=undefined);
+    this.rowsArray = this.rowsArray.filter(x=>x!=undefined);
+    console.log('pool', this.pool);
+    console.log('cols', this.colsArray);
+    console.log('rows', this.rowsArray);
+    console.log('filters01: ', this.filters);
     console.log(this.dimensiones);
     let r = {};
     this.dimensiones.forEach(x=>{
-      let values = x.options.filter(y=>y.selected) 
-      if(values.length>0){
-        r[x.name] = values.map(z=>z.id)
-      }      
+      console.log(x);
+      if(!x.all){
+        let values = x.options.filter(y=>y.selected) 
+        if(values.length>0){
+          r[x.name] = values.map(z=>z.id)
+        } 
+      }           
     });
-    console.log(r);
+    r = this.filters;
     this.config.cols = this.colsArray.map(x=>x.label);
     this.config.rows = this.rowsArray.map(x=>x.label);
     let group_by = this.colsArray.concat(this.rowsArray).map( x => x.field ).join(',');
     let params = { groupby: group_by }
-    //this.parameters.filter( x => x.filter != '').forEach(x => {
-    this.pool.concat(this.colsArray).concat(this.rowsArray).filter( x => x.filter != '').forEach(x => {
-      params[x.field] = x.filter.split(',');
-    });
+    //this.parameters.filter( x => x.filter != '').forEach(x => {    
     r['groupby'] = group_by;
     console.log(r);
-    console.log(params);
     let response = this.apiService.getIndicadorData(1, r).subscribe( res => {} );
   }
 

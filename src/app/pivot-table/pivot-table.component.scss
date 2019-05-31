@@ -2,6 +2,8 @@
 .table-container {
 	padding-top: 1em;
 	padding-bottom: 1em;
+  max-height: 94vh;
+  overflow-y: auto;
 }
 
 .drag_container {
@@ -106,7 +108,7 @@
   margin:10px;
   margin-right:0;
   border: dashed 2px #29abe2;
-  width: calc(100% - 20px);
+  max-width: 150px;
 
   > div {
     padding: 0;
