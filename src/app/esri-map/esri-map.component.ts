@@ -47,7 +47,7 @@ export class EsriMapComponent implements OnInit {
     {id: 4, color: '#E20613'},
   ];
 
-  private datosResponse ;
+  private datosResponse;
 
   dataSubs: Subscription;
 
@@ -101,7 +101,59 @@ export class EsriMapComponent implements OnInit {
       console.log('EsriLoader: ', error);
 
     }
+  }
 
+  async iniciarToolDraw(tipo) {
+    try {
+      const [Draw, SimpleFillSymbol, SimpleLineSymbol, Graphic, Color] = await loadModules(['esri/toolbars/draw', 'esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleLineSymbol', 'esri/graphic', 'esri/Color'], this.optionsApi);
+
+      const tb = new Draw(this.map);
+
+      const symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+          new Color([255, 0, 0]), 2), new Color([0, 0, 0, 0]));
+
+      let graphic;
+      tb.on('draw-end',function (evt){
+        tb.deactivate();
+        this.map.enableMapNavigation();
+
+        // figure out which symbol to use
+
+
+        /*if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
+          symbol = markerSymbol;
+        } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
+          symbol = lineSymbol;
+        }
+        else {
+          symbol = fillSymbol;
+        }*/
+        graphic = new Graphic(evt.geometry, symbol)
+        this.map.graphics.add(graphic);
+        this.map.setExtent(evt.geometry.getExtent());
+
+
+      });
+
+      /*
+      tb.on('draw-end').then(evt => {
+        tb.deactivate();
+        this.map.enableMapNavigation();
+
+
+        this.map.graphics.add(new Graphic(evt.geometry, symbol));
+      });
+*/
+      const tool = tipo.toLowerCase();
+      this.map.disableMapNavigation();
+      tb.activate(tool);
+
+
+    } catch (error) {
+      console.log('EsriLoader: ', error);
+
+    }
   }
 
   async inicializarMapa() {
@@ -152,30 +204,28 @@ export class EsriMapComponent implements OnInit {
   }
 
 
-  async actualizarCapaTematico(res, index , estratos) {
+  async actualizarCapaTematico(res, index, estratos) {
     try {
       const [Color, SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer] = await loadModules(['esri/Color',
         'esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleLineSymbol',
         'esri/renderers/UniqueValueRenderer'], this.optionsApi);
 
-      var c=[];
+      var c = [];
       var color;
       var found;
-      var outline=1;
+      var outline = 1;
       var uniqueValueInfos = res.data.map(e => {
-        color=e.color;
-        outline=1;
-        c=this.hex2rgb(color).rgb;
+        color = e.color;
+        outline = 1;
+        c = this.hex2rgb(color).rgb;
 
-        found=estratos.find( estrato => e.estrato===estrato);
+        found = estratos.find(estrato => e.estrato === estrato);
 
-        if(found==undefined)
-        {
-          outline=0;
+        if (found == undefined) {
+          outline = 0;
           c.push(0.2);
-        }
-        else{
-          outline=1;
+        } else {
+          outline = 1;
           c.push(1);
         }
 
@@ -242,10 +292,9 @@ export class EsriMapComponent implements OnInit {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16),
-      rgb: [parseInt(result[1], 16) , parseInt(result[2], 16), parseInt(result[3], 16)]
+      rgb: [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
     } : null;
   }
-
 
 
   public ngOnInit() {
@@ -283,13 +332,17 @@ export class EsriMapComponent implements OnInit {
         this.datosResponse = res;
         this.ambito = res['ambito'];
 
-        this.actualizarCapaTematico(res, this.ambito,[0,1,2,3,4]).then(_ => {
+        this.actualizarCapaTematico(res, this.ambito, [0, 1, 2, 3, 4]).then(_ => {
           this.cambiarAmbito(this.ambito);
         });
       });
 
-      this.esriMapService.getEstratosDataSources().subscribe( estratos =>{
-        this.actualizarCapaTematico(this.datosResponse,this.ambito ,estratos);
+      this.esriMapService.getEstratosDataSources().subscribe(estratos => {
+        this.actualizarCapaTematico(this.datosResponse, this.ambito, estratos);
+      });
+
+      this.esriMapService.getBtnAddGraphicSource().subscribe(tipo => {
+        this.iniciarToolDraw(tipo);
       });
 
 

@@ -29,6 +29,7 @@ export class EsriMapService {
   private anioSource = new BehaviorSubject(2018);
   private variableSource = new BehaviorSubject('P010100');
   private clickBtnResetPeruSource = new BehaviorSubject(0);
+  private clickBtnAddGraphicSource = new BehaviorSubject(0);
 
   private esriMapDataSource = new BehaviorSubject<any>(0);
   private esriMapDataSources = new BehaviorSubject<any[]>([]);
@@ -42,7 +43,6 @@ export class EsriMapService {
   constructor(private http: HttpClient , private dataMapService: ApiService) {
     this.ambitoSource.next(0);
     this.obtenerDatosMapaTematico().subscribe(res => {
-      //this.setEsriMapDataSource(res);
     });
 
     this.dataMapService.loadedData$.subscribe(
@@ -233,18 +233,11 @@ export class EsriMapService {
     var r=response[0]._id;
     (r.hasOwnProperty('Distrito'))?this.ambito=2:(r.hasOwnProperty('Provincia'))?this.ambito=1:(r.hasOwnProperty('Departamento'))?this.ambito=0:this.ambito=-1;
 
-
     res['id']=this.ambito;
     res['rangos']=rangos;
     res['colores']=this.colores;
     res['data']=datosx;
     res['ambito']=this.ambito;
-    //setSelectedAmbito(this.ambito);
-    /*"Departamento": "AREQUIPA",
-      "codigo_mapa": "040207",
-      "Provincia": "CAMANA",
-      "Distrito": "040207 QUILCA"*/
-
     return res;
   }
 
@@ -287,6 +280,8 @@ export class EsriMapService {
 
   cambiarAnio(anio) {
     const res = this.datoTabla.filter(x => x._id['Año'] == anio);
+
+    console.log('res>>>',res);
     this.anio = anio;
     this.anioSource.next(anio);
     this.esriMapDataSource.next( this.formatearDato(res));
@@ -310,8 +305,20 @@ export class EsriMapService {
     this.clickBtnResetPeruSource.next(value);
   }
 
+
+
   getBtnResetPeruSource(): Observable<any> {
     return this.clickBtnResetPeruSource;
+  }
+
+
+  clickBtnAddGraphic(value) {
+    this.clickBtnAddGraphicSource.next(value);
+  }
+
+
+  getBtnAddGraphicSource(): Observable<any> {
+    return this.clickBtnAddGraphicSource;
   }
 
   getEstratosDataSources(): Observable<any> {

@@ -18,6 +18,13 @@ export class HerramientasMapComponent implements OnInit {
     console.log('click peru');
     this.esriMapService.clickBtnResetPeru(0);
   }
+  btnAddGraphic(event){
+    var tipo = event.target.id;
+    console.log('click event',event.target.id);
+
+    this.esriMapService.clickBtnAddGraphic(tipo);
+  }
+
   ngOnInit() {
 
 
