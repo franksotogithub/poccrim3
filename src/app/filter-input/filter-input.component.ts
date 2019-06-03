@@ -51,10 +51,10 @@ export class FilterInputComponent implements OnInit {
 
   getFilterIds(): object[]{
   	console.log('filterids');
-  	return this.options.filter(x=>x.selected).map(x=>x.id);
+  	return this.getOptions().filter(x=>x.selected).map(x=>x.id);
   }
 
-  getOptions(): object[]{
+  getOptions(): any[]{
     let response = this.options;
     if(this.search_text!=''){
       response = response.filter(x=>x.label.includes(this.search_text.toUpperCase()));
