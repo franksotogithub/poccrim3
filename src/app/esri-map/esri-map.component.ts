@@ -145,7 +145,7 @@ export class EsriMapComponent implements OnInit {
         this.map.graphics.add(new Graphic(evt.geometry, symbol));
       });
 */
-      const tool = tipo.toLowerCase();
+      let tool = tipo.toLowerCase();
       (tool=='')?tool='extent':true;
       this.map.disableMapNavigation();
       tb.activate(tool);
