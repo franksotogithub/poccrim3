@@ -45,6 +45,11 @@ export class FilterInputComponent implements OnInit {
   	return this.show_options;
   }
 
+  hide_options(): boolean {
+    this.show_options = false;
+    return this.show_options;
+  }
+
   getFilter(): string{
   	return '';
   }
