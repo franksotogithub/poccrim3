@@ -1,12 +1,12 @@
 <div class="dimension_box" [ngClass]="show_options ? 'optOpen':''">
-	<div class="label">{{ label }}
+	<div class="label" [class.filtered]="!all_selected">{{ label }}
 		<span class="control"(click)="toggleOptions()">
 			<i *ngIf="!show_options" class="material-icons">keyboard_arrow_down</i>
-			<i *ngIf="show_options" class="material-icons">clear</i>
+			<i *ngIf="show_options" class="material-icons">close</i>
 		</span>
 	</div>
 
-	<div class="flotarListaDimension" *ngIf="show_options" (focusout)="hide_options()">
+	<div class="flotarListaDimension" *ngIf="show_options">
 		<div class="search">
 			<input type="search" placeholder="Buscar..." [(ngModel)]="search_text">
 		</div>

@@ -14,30 +14,19 @@ export class FilterInputComponent implements OnInit {
   @Input() filters: object;
 
 
-  search_text: string;
   all_selected: boolean;
+  search_text: string;  
   show_options: boolean;
 
-  constructor() { }
+  constructor() {
+    console.log('constructor');
+  }
 
   ngOnInit() {
-  	this.show_options = false;
-  	this.all_selected = true;
+    this.all_selected = this.options.length == this.options.filter(x=>x.selected).length ? true : false;
+    this.show_options = false;
     this.search_text = '';
-  	this.update_filters();
-  	//this.filters[this.name] = this.getFilterIds();
-  	/*
-  	this.label = 'Departamento';
-  	this.show_options = false;
-  	this.options = [
-  		{ id: '01', label: 'AMAZONAS', selected: true },
-  		{ id: '02', label: 'APURIMAC', selected: true },
-  		{ id: '03', label: 'AREQUIPA', selected: true },
-  		{ id: '04', label: 'AYACUCHO', selected: true },
-  		{ id: '05', label: 'CAJAMARCA', selected: true },
-  		{ id: '06', label: 'CUSCO', selected: true },
-  		{ id: '07', label: 'HUANCAVELICA', selected: true },
-  	]*/
+  	this.update_filters();  	
   }
 
   toggleOptions(): boolean {
@@ -50,12 +39,7 @@ export class FilterInputComponent implements OnInit {
     return this.show_options;
   }
 
-  getFilter(): string{
-  	return '';
-  }
-
   getFilterIds(): object[]{
-  	console.log('filterids');
   	return this.getOptions().filter(x=>x.selected).map(x=>x.id);
   }
 
@@ -73,6 +57,7 @@ export class FilterInputComponent implements OnInit {
   }
 
   check_all(): boolean{
+    this.all_selected = true;
   	this.options.forEach(x=>{
   		x.selected = true;
   	});
@@ -98,5 +83,10 @@ export class FilterInputComponent implements OnInit {
   	}  	
   	return true;
   }
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    console.log('destroy!');    
+  } 
 
 }

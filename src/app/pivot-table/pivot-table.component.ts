@@ -85,12 +85,12 @@ export class PivotTableComponent implements OnInit, OnDestroy {
 
     this.subsDragula.add(dragulaService.dropModel(this.MANY_ITEMS)
       .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
-        console.log('el', el);
-        console.log('target', target);
-        console.log('source', source);
-        console.log('sourceModel', sourceModel);
-        console.log('targetModel', targetModel);        
-        console.log('item', item); 
+        //console.log('el', el);
+        //console.log('target', target);
+        //console.log('source', source);
+        //console.log('sourceModel', sourceModel);
+        //console.log('targetModel', targetModel);        
+        //console.log('item', item); 
       })
     );
     
@@ -152,6 +152,8 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     r = this.filters;
     this.config.cols = this.colsArray.map(x=>x.label);
     this.config.rows = this.rowsArray.map(x=>x.label);
+    console.log('table_cols', this.config.cols);
+    console.log('table_cols', this.config.rows);
     console.log('to_group_by', this.colsArray.concat(this.rowsArray));
     let group_by = this.colsArray.concat(this.rowsArray).map( x => x.name ).join(',');
     let params = { groupby: group_by }
