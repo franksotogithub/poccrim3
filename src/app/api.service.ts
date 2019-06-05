@@ -15,8 +15,8 @@ import { ReplaySubject, Subject }    from 'rxjs';
 })
 export class ApiService {
 
-	private api_url = 'http://192.168.34.16:8877/poccrim/';
-	//private api_url = 'http://devindica.inei.gob.pe/api/poccrim/';
+	//private api_url = 'http://192.168.34.16:8877/poccrim/';
+	private api_url = 'http://devindica.inei.gob.pe/api/poccrim/';
 
 	private loadedDataSource = new ReplaySubject<Response[]>(1);
 	private loadedDimensionsSource = new ReplaySubject<Dimension[]>(1);

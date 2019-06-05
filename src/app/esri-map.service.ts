@@ -16,8 +16,8 @@ declare var palette: any;
   providedIn: 'root'
 })
 export class EsriMapService {
-
-  private url = 'http://192.168.34.39:8047/mapa/tematico';
+  
+  private url = 'http://192.168.34.39:8047/mapa/tematico';  
 
   private proyecto = 'frecuencias';
   private anio = 2011;
@@ -201,14 +201,15 @@ export class EsriMapService {
 
     obtenerDatosMapaTematico(){
 
-      const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
+      //const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
+      const url =`http://devindica.inei.gob.pe/api/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
+      
       return this.http.get<esriMapData>(url).pipe(
         tap(response => {
           var res = this.formatearDato(response);
           this.esriMapDataSource.next(res);
         }),
         catchError(this.handleError)
-
 
       );
 
