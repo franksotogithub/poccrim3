@@ -1,7 +1,5 @@
 <div class="table-container">
 
-
-
 	<div class="drag_container">
 		<div class=" row pool contItwaiting">
 			<div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='pool'>
@@ -15,35 +13,29 @@
 			</div>
 		</div>
 
-    <div class="row m-0">
-      <div style="width: 150px;" >
-        <button class="btnEjecutarCon" (click)="run()">
-          <i class="material-icons" style="  display: inline-block;
-    font-size: 30px;
-    margin-right: 15px;">
-          update
-        </i>
-          <p style=" display: inline-block;
+	    <div class="row m-0">
+	      <div style="width: 150px;" >
+	        <button class="btnEjecutarCon" (click)="run()">
+	          <i class="material-icons" style="display: inline-block; font-size: 30px; margin-right: 15px;">update</i>
+	          <p style=" display: inline-block; margin-bottom: 0px;">Ejecutar <br> Consulta</p>
+	        </button>
+	      </div>
 
-    margin-bottom: 0px;">Ejecutar <br> Consulta</p>
-        </button>
-      </div>
+	      <div class="col rows p-0" >
+	        <div class="row columns contItactive mb-0">
+	          <div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
+	            <app-filter-input *ngFor='let dimension of colsArray'
+	                              [name]="dimension.name"
+	                              [label]="dimension.label"
+	                              [parent]="dimension.parent"
+	                              [options]="dimension.options"
+	                              [filters]="filters">
+	            </app-filter-input>
+	          </div>
+	        </div>
+	      </div>
 
-      <div class="col rows p-0" >
-        <div class="row columns contItactive mb-0">
-          <div class="container " dragula="MANY_ITEMS" [(dragulaModel)]='colsArray'>
-            <app-filter-input *ngFor='let dimension of colsArray'
-                              [name]="dimension.name"
-                              [label]="dimension.label"
-                              [parent]="dimension.parent"
-                              [options]="dimension.options"
-                              [filters]="filters">
-            </app-filter-input>
-          </div>
-        </div>
-      </div>
-
-    </div>
+	    </div>
 
 
 		<div class="row m-0" >
@@ -59,8 +51,8 @@
 				</div>
 			</div>
 			<div class="col table">
-				<div id="pivot"></div>
-				<div *ngIf="!data"><p>Cargando...</p></div>
+				<div *ngIf="!data; else table_block"><p>Cargando...</p></div>				
+				<div [class.d-none]="!data" id="pivot"></div>				
 			</div>
 		</div>
 	</div>

@@ -1,22 +1,29 @@
 <app-header-principal></app-header-principal>
 
 <div class="row m-0" style="height: calc(100% - 57px); max-height: calc(100% - 57px); overflow: hidden">
-  <div class="col-6 p-0 m-0 height100">
+  <div class="col-lg-6 col-sm-12 p-0 m-0 height100">
+    <app-pivot-table></app-pivot-table>
+    
+  </div>
+  <div class="col-lg-6 col-sm-12 p-0 m-0 height100">
 
-    <app-herramientas-map>
+    <div (click)="set_active_tab(1)">tab1</div>
+    <div (click)="set_active_tab(2)">tab2</div>
+    <div [hidden]="active_tab!=1" class="col-12 p-0 m-0" style="height: 95%;">        
+       <app-herramientas-map>
 
-    </app-herramientas-map>
-    <app-legenda-map>
-    </app-legenda-map>
-    <app-esri-map class="height100">
-    </app-esri-map>
-
+      </app-herramientas-map>
+      <app-legenda-map>
+      </app-legenda-map>
+      <app-esri-map class="height100">
+      </app-esri-map>
+    </div>
+    <div [hidden]="active_tab!=2" class="col-12 p-0 m-0" style="height: 95%;">    
+      <app-datacrim-chart></app-datacrim-chart>
+    </div>
 
   </div>
-  <div class="col-6 p-0 m-0 height100">
-
-  	<app-pivot-table></app-pivot-table>
-  </div>
+  
 </div>
 
 <router-outlet></router-outlet>

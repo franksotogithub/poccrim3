@@ -16,8 +16,9 @@
 .table-container {
 	padding-top: 1em;
 	padding-bottom: 1em;
-  min-height: 94vh;
+  /*min-height: 94vh;*/
   max-height: 94vh;
+  min-height: 100%;
   overflow-y: auto;
 }
 
@@ -42,6 +43,7 @@
 
 
 /* :host /deep/ mySelector { */
+/*
 :host ::ng-deep #pivot > table.pvtUi > tr > td.pvtAxisContainer.pvtRows.pvtUiCell.ui-sortable {
   display: none;
 
@@ -53,8 +55,8 @@
 }
 :host ::ng-deep #pivot > table.pvtUi > tr:nth-child(1), :host ::ng-deep #pivot > table.pvtUi > tr > td.pvtRendererArea {
   border-top:none;
-
 }
+*/
 
 :host ::ng-deep #pivot table.pvtTable thead tr th,:host ::ng-deep #pivot table.pvtTable tbody tr th {
   background-color: #c1ebff;
@@ -160,4 +162,14 @@
   max-height: 645px;
   overflow: auto;
   margin-bottom: 0;
+}
+
+
+:host ::ng-deep .pvtTableRendererHolder {
+  height: 300px;
+  overflow: auto;
+}
+
+:host ::ng-deep .pvtTable {
+  min-width: 100%;
 }

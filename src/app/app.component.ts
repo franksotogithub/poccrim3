@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'datacrimv3';
+  active_tab = 1;
+  set_active_tab(i): boolean {
+  	console.log('change');
+  	this.active_tab = i;
+  	return true;
+  }
 }

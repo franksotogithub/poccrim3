@@ -19,7 +19,6 @@ export class FilterInputComponent implements OnInit {
   show_options: boolean;
 
   constructor() {
-    console.log('constructor');
   }
 
   ngOnInit() {
@@ -85,8 +84,6 @@ export class FilterInputComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // prevent memory leak when component destroyed
-    console.log('destroy!');    
   } 
 
 }

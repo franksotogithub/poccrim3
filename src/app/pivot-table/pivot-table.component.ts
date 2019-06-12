@@ -11,8 +11,13 @@ import { DragulaService } from 'ng2-dragula';
 
 import 'pivottable/dist/pivot.min.js';
 import 'pivottable/dist/pivot.min.css';
+
+import 'src/assets/libs/pivottable/nrecopivottableext.js';
+import 'src/assets/libs/pivottable/nrecopivottableext.css';
+
 declare var jQuery: any;
 declare var $: any;
+declare var NRecoPivotTableExtensions:any;
 
 @Component({
   selector: 'app-pivot-table',
@@ -131,6 +136,7 @@ export class PivotTableComponent implements OnInit, OnDestroy {
   }
 
   run(): void {
+    this.data = null;
     this.pool = this.pool.filter(x=>x!=undefined);
     this.colsArray = this.colsArray.filter(x=>x!=undefined);
     this.rowsArray = this.rowsArray.filter(x=>x!=undefined);
@@ -167,33 +173,38 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     //this helps if you build more than once as it will wipe the dom for that element
     while (this.targetElement.firstChild){
       this.targetElement.removeChild(this.targetElement.firstChild);
-    }        
-    this.targetElement.pivotUI(this.data, this.config, true, "es");
+    } 
+    this.targetElement.pivot(this.data, this.config, "es", true);
   }
 
   getInitConfig(): object {
-  	var tpl = $.pivotUtilities.aggregatorTemplates;
-    var fmt = $.pivotUtilities.numberFormat({
+  	let tpl = $.pivotUtilities.aggregatorTemplates;
+    let fmt = $.pivotUtilities.numberFormat({
       digitsAfterDecimal: 0,
       thousandsSeparator: ' ',
-    });
+    });    
     
-    var derivers = $.pivotUtilities.derivers;
-    var renderers = $.extend(
-      $.pivotUtilities.renderers,
-    );
-
-  	let config = {
-      hiddenAttributes: ["Denuncias", "codigo_mapa"],
-      rows: this.rows.split(','),
-		  cols: this.cols.split(','),
-		  aggregators: {
-			  "Denuncias": function() { return tpl.sum(fmt)(["Denuncias"])},            
-		  },
-		  onRefresh: function(){
-  			console.log('refresh');			
-		  }
-    };
+    var nrecoPivotExt = new NRecoPivotTableExtensions({
+      wrapWith: '<div class="pvtTableRendererHolder"></div>',
+      drillDownHandler: dataFilter => { 
+        console.log(dataFilter);
+      },
+      onSortHandler: sortOpts => {
+        console.log(sortOpts);
+      },
+      fixedHeaders : true
+    });
+    let config = {
+      renderer: nrecoPivotExt.wrapTableRenderer($.pivotUtilities.renderers["Table"]),
+      rendererOptions: { sort: { direction : "desc", column_key : [ "1" ]} },
+      cols: ["Año"],
+      rows: ["Departamento"],
+      aggregator : tpl.sum(fmt)(["Denuncias"]),
+      onRefresh: function(config) {
+        console.log('refresh');
+        nrecoPivotExt.initFixedHeaders($('#tabla-pivot table.pvtTable'));                
+      }
+    }  
   	return config;
   }
 

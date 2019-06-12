@@ -31,6 +31,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/material-design-icons/iconfont/material-icons.css",
               "node_modules/pivottable/dist/pivot.css",
+              "src/assets/libs/pivottable/nrecopivottableext.css",
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -40,6 +41,7 @@
               "node_modules/jquery-ui-dist/jquery-ui.min.js",
               "node_modules/pivottable/dist/pivot.min.js",
               "node_modules/pivottable/dist/pivot.es.min.js",              
+              "src/assets/libs/pivottable/nrecopivottableext.js",              
             ],
             "es5BrowserSupport": true
           },
