@@ -13,19 +13,16 @@ export class LegendaMapComponent implements OnInit {
   private ambito = 0;
 
   private items = [
-    {id: 0, text: 'DEPARTAMENTO', group: 'ccdd'},
-    {id: 1, text: 'PROVINCIA', group: 'ccdd,ccpp'},
-    {id: 2, text: 'DISTRITO', group: 'ccdd,ccpp,ccdi'},
+    {id: 0, text: 'DEPARTAMENTO',  },
+    {id: 1, text: 'PROVINCIA',  },
+    {id: 2, text: 'DISTRITO', },
+
   ];
   private selectedItem = this.items[0];
 
   private estratos =[];
 
   private itemsVariables = [
-    /*{id: 'P010100', text: 'P010100'},
-    {id: 'P010101', text: 'P010101'},
-    {id: 'P010102', text: 'P010102'},
-    {id: 'P010802', text: 'P010802'},*/
 
     {id: 2016, text: '2016'},
     {id: 2017, text: '2017'},
@@ -46,7 +43,7 @@ export class LegendaMapComponent implements OnInit {
   }
 
   selected(value: any) {
-    this.esriMapService.cambiarAmbito(value);
+    this.esriMapService.cambiarAmbito(value.id);
   }
 
 
@@ -61,6 +58,7 @@ export class LegendaMapComponent implements OnInit {
   }
 
   setSelectedAmbito(ambito: any) {
+    console.log('ambito setSelectedAmbito>>>',ambito);
     this.selectedItem = this.items.find(x => x.id === ambito);
   }
 
@@ -78,11 +76,26 @@ export class LegendaMapComponent implements OnInit {
     });
 
 
-    this.esriMapService.getAmbito().subscribe(ambito => {
+    this.esriMapService.getAmbitoSourceLegenda().subscribe(ambito => {
+      //console.log("getAmbito()>>>",ambito);
         this.ambito = ambito;
         this.setSelectedAmbito(ambito);
       }
     );
+
+    this.esriMapService.getAnios().subscribe(anios=>{
+
+         //console.log('anios>>>',anios.map(x=>{return  { id:x.id,text:x.label}}));
+         this.itemsAnios= anios.map(x=>{return { id:x.id,text:x.label}});
+
+         console.log(this.itemsAnios);
+
+
+
+        //console.log('anios>>>',anios);
+    });
+
+
 
   }
 

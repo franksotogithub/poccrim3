@@ -116,6 +116,9 @@ export class PivotTableComponent implements OnInit, OnDestroy {
           response['Denuncias'] = x.delitos
           return response;
         });
+
+        //console.log('data oninit>>>',data);
+
         this.data = data;
         this.updateTable();
       }
@@ -144,49 +147,85 @@ export class PivotTableComponent implements OnInit, OnDestroy {
     console.log('cols', this.colsArray);
     console.log('rows', this.rowsArray);
     console.log('filters01: ', this.filters);
-    console.log(this.dimensiones);
-    let r = {};
+    console.log('dimensiones: ',this.dimensiones);
+
+    let query = {};
+
     this.dimensiones.forEach(x=>{
       console.log(x);
       if(!x.all){
-        let values = x.options.filter(y=>y.selected) 
+        let values = x.options.filter(y=>y.selected)
         if(values.length>0){
-          r[x.name] = values.map(z=>z.id)
-        } 
-      }           
+          query[x.name] = values.map(z=>z.id)
+        }
+      }
     });
-    r = this.filters;
+
+
+    let params = { 'filters': this.filters , 'cols':this.colsArray , 'rows':this.rowsArray };
+
+
+    /*console.log('colsArray', this.colsArray.map(x=>x.label));
+    console.log('rowsArray', this.rowsArray.map(x=>x.label));*/
+
+    /*this.config.cols =this.colsArray.map(x=>x.label);
+    this.config.rows = this.rowsArray.map(x=>x.label);
+    */
+
+    /*r = this.filters;
     this.config.cols = this.colsArray.map(x=>x.label);
     this.config.rows = this.rowsArray.map(x=>x.label);
     console.log('table_cols', this.config.cols);
     console.log('table_cols', this.config.rows);
     console.log('to_group_by', this.colsArray.concat(this.rowsArray));
     let group_by = this.colsArray.concat(this.rowsArray).map( x => x.name ).join(',');
-    let params = { groupby: group_by }
-    //this.parameters.filter( x => x.filter != '').forEach(x => {    
+    let params = { 'filters': this.filters , 'cols':this.colsArray , 'rows':this.rowsArray };
+
+    //this.parameters.filter( x => x.filter != '').forEach(x => {
     r['groupby'] = group_by;
-    console.log(r);
-    let response = this.apiService.getIndicadorData(1, r).subscribe( res => {} );
+    console.log('r>>>>',r);
+    this.apiService.setParametros(params);
+    */
+
+    query = this.apiService.obtenerQuery(params);
+    this.apiService.updateConfig(this.config);
+
+    let response = this.apiService.getIndicadorData(1, query).subscribe( res => {} );
   }
 
+
+
   updateTable(): void {
-    //this helps if you build more than once as it will wipe the dom for that element
+
     while (this.targetElement.firstChild){
       this.targetElement.removeChild(this.targetElement.firstChild);
-    } 
-    this.targetElement.pivot(this.data, this.config, "es", true);
-  }
+    }
+
+
+    var arrayAnios=this.colsArray.find(x=> x.name=='anio');
+
+    if (arrayAnios!==undefined){
+      console.log('updateTable>>>',arrayAnios['options'].filter(x=>x.selected==true));
+      this.apiService.setAnios(arrayAnios['options'].filter(x=>x.selected==true));
+    }
+
+
+    this.targetElement.pivot(this.data, this.apiService.getConfig(), "es", true);
+    //this.config=this.apiService.getConfig();
+    }
+
+
 
   getInitConfig(): object {
   	let tpl = $.pivotUtilities.aggregatorTemplates;
     let fmt = $.pivotUtilities.numberFormat({
       digitsAfterDecimal: 0,
       thousandsSeparator: ' ',
-    });    
+    });
     
     var nrecoPivotExt = new NRecoPivotTableExtensions({
       wrapWith: '<div class="pvtTableRendererHolder"></div>',
-      drillDownHandler: dataFilter => { 
+      drillDownHandler: dataFilter => {
         console.log(dataFilter);
       },
       onSortHandler: sortOpts => {
@@ -202,9 +241,9 @@ export class PivotTableComponent implements OnInit, OnDestroy {
       aggregator : tpl.sum(fmt)(["Denuncias"]),
       onRefresh: function(config) {
         console.log('refresh');
-        nrecoPivotExt.initFixedHeaders($('#tabla-pivot table.pvtTable'));                
+        nrecoPivotExt.initFixedHeaders($('#tabla-pivot table.pvtTable'));
       }
-    }  
+    }
   	return config;
   }
 

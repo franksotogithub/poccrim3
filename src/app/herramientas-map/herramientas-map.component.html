@@ -6,17 +6,13 @@
     <i class="material-icons" (click)="btnAddGraphic($event)"   id="Extent"> aspect_ratio </i>
   </button>
 
-  <!--<input type="text" list="staticUserIds" />-->
-  <datalist id="staticUserIds">
-    <option>1000</option>
-    <option>1100</option>
-    <option>1110</option>
-    <option>1200</option>
-    <option>1220</option>
-    <option>1340</option>
-    <option>1567</option>
-    <option>1678</option>
-    <option>1789</option>
-  </datalist>
+  <!--<input type="text" (keyup)="searchUbicacion($event)" list="ubicacionList"  (ngModelChange)="selectedUbicacion($event)" />-->
+  <!--<datalist id="ubicacionList">
+    <option *ngFor="let item of itemsUbicacion" [ngValue]="item" >{{item.text}} </option>
+  </datalist>-->
+  <input type="text" (keyup)="searchUbicacion($event)"   (ngModelChange)="selectedUbicacion($event)" />
+  <ul>
+    <li *ngFor="let item of itemsUbicacion">{{item.text}}</li>
+  </ul>
 
 </div>

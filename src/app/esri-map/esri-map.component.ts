@@ -91,7 +91,7 @@ export class EsriMapComponent implements OnInit {
       query.where = queryText;
 
 
-      queryTask.executeForExtent(query, function(result) {
+      queryTask.executeForExtent(query, (result) => {
         console.log('result>>>>', result);
         this.map.setExtent(result.extent);
 
@@ -114,39 +114,19 @@ export class EsriMapComponent implements OnInit {
           new Color([255, 0, 0]), 2), new Color([0, 0, 0, 0]));
 
       let graphic;
-      tb.on('draw-end',function (evt){
+
+      tb.on('draw-end', (evt) => {
         tb.deactivate();
         this.map.enableMapNavigation();
-
-        // figure out which symbol to use
-
-
-        /*if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
-          symbol = markerSymbol;
-        } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
-          symbol = lineSymbol;
-        }
-        else {
-          symbol = fillSymbol;
-        }*/
-        graphic = new Graphic(evt.geometry, symbol)
-        //this.map.graphics.add(graphic);
+        //this.esriMapService.cambiarAmbito(this.ambito +1 );
+        graphic = new Graphic(evt.geometry, symbol);
         this.map.setExtent(evt.geometry.getExtent());
 
-
       });
 
-      /*
-      tb.on('draw-end').then(evt => {
-        tb.deactivate();
-        this.map.enableMapNavigation();
 
-
-        this.map.graphics.add(new Graphic(evt.geometry, symbol));
-      });
-*/
       let tool = tipo.toLowerCase();
-      (tool=='')?tool='extent':true;
+      (tool == '') ? tool = 'extent' : true;
       this.map.disableMapNavigation();
       tb.activate(tool);
 
@@ -241,15 +221,6 @@ export class EsriMapComponent implements OnInit {
 
       });
 
-      /*var uniqueValueInfos = res.data.map(e => {
-        return {
-          value: e.codigo,
-          symbol: new SimpleFillSymbol(
-            'solid'
-            , new SimpleLineSymbol().setWidth(1)
-            , new Color(e.color))
-        };
-      });*/
 
       var defaultSymbol = new SimpleFillSymbol(
         'solid'
@@ -305,8 +276,10 @@ export class EsriMapComponent implements OnInit {
 
         this.addCapa(this.urlServiceMap, a).then(_ => {
           if (a === 0) {
+            /*
             this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
-            });
+            });*/
+            this.esriMapService.obtenerDatosMapaTematico();
           }
         });
 
@@ -314,9 +287,11 @@ export class EsriMapComponent implements OnInit {
 
       this.esriMapService.getAmbito().subscribe(ambito => {
           this.ambito = ambito;
-          this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
+          /*this.esriMapService.obtenerDatosMapaTematico().subscribe(res => {
             console.log('getAmbito res>>', res);
-          });
+          });*/
+
+          this.esriMapService.obtenerDatosMapaTematico();
 
         }
       );
@@ -343,7 +318,11 @@ export class EsriMapComponent implements OnInit {
       });
 
       this.esriMapService.getBtnAddGraphicSource().subscribe(tipo => {
-        this.iniciarToolDraw(tipo);
+        console.log('getBtnAddGraphicSource>>>', tipo);
+        if (tipo !== -1) {
+          this.iniciarToolDraw(tipo);
+        }
+        //
       });
 
 

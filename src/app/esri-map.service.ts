@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 
 import {HttpClient, HttpHeaders, HttpParams, HttpErrorResponse} from '@angular/common/http';
 
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, groupBy, map, tap} from 'rxjs/operators';
 
 import {ReplaySubject, Subject, Observable, of, throwError, BehaviorSubject} from 'rxjs';
 
 import {esriMapData} from './esri-map';
 import {ApiService} from './api.service';
+
 
 declare var palette: any;
 
@@ -23,41 +24,65 @@ export class EsriMapService {
   private anio = 2011;
   private variable = 'P010100';
   private ambito = 0;
+
   private tipoValor = 1;
 
   private ambitoSource = new BehaviorSubject(0);
+  private ambitoSourceLegenda = new BehaviorSubject(0);
   private anioSource = new BehaviorSubject(2018);
   private variableSource = new BehaviorSubject('P010100');
   private clickBtnResetPeruSource = new BehaviorSubject(0);
-  private clickBtnAddGraphicSource = new BehaviorSubject(0);
+  private clickBtnAddGraphicSource = new BehaviorSubject(-1);
 
   private esriMapDataSource = new BehaviorSubject<any>(0);
   private esriMapDataSources = new BehaviorSubject<any[]>([]);
   private estratosDataSources = new BehaviorSubject<any[]>([]);
+  private anios = new BehaviorSubject< any[] >([]);
   private colorGris = '#9c9c9c';
   private colores = [];
   private group = 'ccdd';
+  private rows = [];
   private datoTabla;
+  private ambitos = [
+    {id: 0, text: 'DEPARTAMENTO',  group: 'ccdd' , rows :[ {name:'ccdd',label:'Departamento'}] },
+    {id: 1, text: 'PROVINCIA', group: 'ccdd,ccpp', rows :[ {name:'ccdd',label:'Departamento'} , {name:'ccpp',label:'Provincia'} ] },
+    {id: 2, text: 'DISTRITO', group: 'ccdd,ccpp,ccdi', rows :[ {name:'ccdd',label:'Departamento'}, {name:'ccpp',label:'Provincia'}, {name:'ccdi',label:'Distrito'} ]},
+  ];
+
 
 
   constructor(private http: HttpClient , private dataMapService: ApiService) {
     this.ambitoSource.next(0);
-    this.obtenerDatosMapaTematico().subscribe(res => {
+    /*this.obtenerDatosMapaTematico().subscribe(res => {
+    });*/
+    this.obtenerDatosMapaTematico();
+
+    this.dataMapService.getAnios().subscribe(anios=>
+    {
+      if(this.anios.value!==anios){
+        this.anios.next(anios);
+      }
+
     });
 
     this.dataMapService.loadedData$.subscribe(
       response => {
         this.datoTabla = response;
-
-        console.log('this.datoTabla>>>' , this.datoTabla);
         var res = response.filter(x => x._id['Año'] == this.anio);
-        this.esriMapDataSource.next( this.formatearDato(res));
+        var result =this.formatearDato(res);
+        this.esriMapDataSource.next(result );
+
+        this.ambitoSourceLegenda.next(result["ambito"]);
+
       }
     );
 
 
   }
 
+  getAmbitoSourceLegenda() : Observable<any> {
+    return this.ambitoSourceLegenda;
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -106,6 +131,9 @@ export class EsriMapService {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  getAnios(): Observable<any> {
+    return this.anios;
+  }
 
   getColores(index, cantNiveles) {
     var listScheme = [];
@@ -201,17 +229,21 @@ export class EsriMapService {
 
     obtenerDatosMapaTematico(){
 
-      //const url =`http://192.168.34.16:8877/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
-      const url =`http://devindica.inei.gob.pe/api/poccrim/delitos/?groupby=${this.group}&anio=${this.anio}`;
-      
-      return this.http.get<esriMapData>(url).pipe(
-        tap(response => {
-          var res = this.formatearDato(response);
-          this.esriMapDataSource.next(res);
-        }),
-        catchError(this.handleError)
+      let params=this.dataMapService.getParametros();
+      let config = this.dataMapService.getConfig();
+      let query;
+      let ambitos =['ccdd','ccpp','ccdi'];
 
-      );
+      if(params['rows']!==undefined){
+        params['rows']=params['rows'].filter((e,index)=>{ !(ambitos.includes(e.name))});
+
+        params['rows']=params['rows'].concat(this.rows);
+        query = this.dataMapService.obtenerQuery(params);
+        this.dataMapService.updateConfig(config);
+      }
+
+      this.dataMapService.getIndicadorData(1, query).subscribe( res => {} );
+
 
 
     }
@@ -268,10 +300,12 @@ export class EsriMapService {
   }
 
   cambiarAmbito(ambito) {
-    this.ambito = ambito.id;
-    this.group = ambito.group;
-    this.ambitoSource.next(this.ambito);
+    this.ambito = ambito;
+    this.group = this.ambitos.find(x=>x.id ===ambito).group;
+    this.rows = this.ambitos.find(x=>x.id ===ambito).rows;
 
+
+    this.ambitoSource.next(this.ambito);
     return ambito;
   }
 
@@ -282,7 +316,7 @@ export class EsriMapService {
   cambiarAnio(anio) {
     const res = this.datoTabla.filter(x => x._id['Año'] == anio);
 
-    console.log('res>>>',res);
+    //console.log('res>>>',res);
     this.anio = anio;
     this.anioSource.next(anio);
     this.esriMapDataSource.next( this.formatearDato(res));
