@@ -51,24 +51,47 @@ export class EsriMapService {
 
 
 
-  constructor(private http: HttpClient , private dataMapService: ApiService) {
+  constructor(private http: HttpClient , private apiService: ApiService) {
     this.ambitoSource.next(0);
     /*this.obtenerDatosMapaTematico().subscribe(res => {
     });*/
     this.obtenerDatosMapaTematico();
 
-    this.dataMapService.getAnios().subscribe(anios=>
+    this.apiService.getAnios().subscribe(anios=>
     {
-      if(this.anios.value!==anios){
+      if(this.anios.value!==anios ){
         this.anios.next(anios);
+        console.log('this.apiService.getAnios()');
+        /*this.apiService.getAnios()*/
+        /*let anio=this.anios.value.find( x=>{return x.id===String(this.anio) && x.selected==true });
+        console.log('anio>>>',anio);
+        (anio!==undefined && this.anios!==undefined && this.anios.value.length>0)? this.anio=parseInt(this.anios.value[0]['id']):true;
+        console.log('this.dataMapService.loadedData$ this.anio>>>',this.anio);
+*/
       }
 
     });
 
-    this.dataMapService.loadedData$.subscribe(
+    this.apiService.loadedData$.subscribe(
       response => {
         this.datoTabla = response;
-        var res = response.filter(x => x._id['Año'] == this.anio);
+        console.log('this.dataMapService.loadedData$ this.datoTabla',this.datoTabla);
+        console.log('this.dataMapService.loadedData$ this.anios',this.anios.value );
+        console.log('this.dataMapService.loadedData$ this.anio',this.anio);
+
+        if(this.anios.value.length>0 && this.anio!==undefined){
+
+          var anios = this.anios.value.filter(x=>x.selected==true);
+          console.log('anios >>>',anios);
+          var anio=anios.find( x=>{return x["id"]===String(this.anio)});
+          console.log('anios >>>',anio);
+
+          (anio==undefined  && anios.length>0)? this.anio=parseInt(anios[0]['id']):true;
+          console.log('this.dataMapService.loadedData2$ this.anio',this.anio);
+
+        }
+
+        var res = response.filter(x => x._id['Año'] == String(this.anio));
         var result =this.formatearDato(res);
         this.esriMapDataSource.next(result );
 
@@ -229,8 +252,8 @@ export class EsriMapService {
 
     obtenerDatosMapaTematico(){
 
-      let params=this.dataMapService.getParametros();
-      let config = this.dataMapService.getConfig();
+      let params=this.apiService.getParametros();
+      let config = this.apiService.getConfig();
       let query;
       let ambitos =['ccdd','ccpp','ccdi'];
 
@@ -238,11 +261,11 @@ export class EsriMapService {
         params['rows']=params['rows'].filter((e,index)=>{ !(ambitos.includes(e.name))});
 
         params['rows']=params['rows'].concat(this.rows);
-        query = this.dataMapService.obtenerQuery(params);
-        this.dataMapService.updateConfig(config);
+        query = this.apiService.obtenerQuery(params);
+        this.apiService.updateConfig(config);
       }
 
-      this.dataMapService.getIndicadorData(1, query).subscribe( res => {} );
+      this.apiService.getIndicadorData(1, query).subscribe( res => {} );
 
 
 
@@ -309,8 +332,12 @@ export class EsriMapService {
     return ambito;
   }
 
-  getAnio(): Observable<any> {
+  getAnioSource(): Observable<any> {
     return this.anioSource;
+  }
+
+  getAnio (): number {
+      return this.anio;
   }
 
   cambiarAnio(anio) {

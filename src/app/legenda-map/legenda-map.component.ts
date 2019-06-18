@@ -85,14 +85,25 @@ export class LegendaMapComponent implements OnInit {
 
     this.esriMapService.getAnios().subscribe(anios=>{
 
-         //console.log('anios>>>',anios.map(x=>{return  { id:x.id,text:x.label}}));
-         this.itemsAnios= anios.map(x=>{return { id:x.id,text:x.label}});
+         console.log(' esriMapService.getAnios() anios>>>',anios.map(x=>{return  { id:x.id,text:x.label}}));
 
-         console.log(this.itemsAnios);
+          this.itemsAnios= anios.map(x=>{return { id:parseInt(x.id),text:x.label}});
+
+          console.log('this.itemsAnios>>>',this.itemsAnios);
+          console.log( 'this.esriMapService.getAnio()>>>', this.esriMapService.getAnio());
+          let itemAnio=this.itemsAnios.find(x => x.id === this.esriMapService.getAnio());
+          if(itemAnio){this.selectedItemAnio=itemAnio}
+
+          else if(this.itemsAnios.length>0){
+
+            this.selectedItemAnio=this.itemsAnios[0];
+            //this.selected(this.itemsAnios[0]);
+          }
 
 
 
-        //console.log('anios>>>',anios);
+
+
     });
 
 

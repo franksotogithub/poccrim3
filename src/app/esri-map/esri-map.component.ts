@@ -296,7 +296,7 @@ export class EsriMapComponent implements OnInit {
         }
       );
 
-      this.esriMapService.getAnio().subscribe(anio => {
+      this.esriMapService.getAnioSource().subscribe(anio => {
         this.anio = anio;
       });
 
